@@ -1,0 +1,10 @@
+Mã yêu cầu,Tên khách hàng,Người liên hệ,Email liên hệ,Nội dung yêu cầu,Thời hạn mong muốn,Ngân sách dự kiến (VNĐ),Chiết khấu mong muốn (%)
+OPP-2026-001,Tập đoàn Công nghệ Alpha,Nguyễn Văn Hùng,hung.nv@alpha.vn,"Chúng tôi cần trang bị 2 Máy chủ Dell PowerEdge R750 và 4 Switch Cisco Catalyst 9200L cho phòng server chi nhánh mới kèm 1 Dịch vụ lắp đặt và cấu hình tiêu chuẩn.",7 ngày,450000000,5%
+OPP-2026-002,Công ty Tài chính Beta,Trần Thị Mai,mai.tran@beta.com,"Cần mua 12 Bộ phát Wifi Aruba AP-505 và 2 Tường lửa Fortinet FortiGate 60F. Đề nghị chiết khấu đặc biệt 16% cho đối tác lâu năm.",10 ngày,150000000,16%
+OPP-2026-003,Công ty Logistics Delta,Lê Hoàng Nam,nam.le@deltalog.vn,"Chào Minh An, chúng tôi đang nâng cấp mạng văn phòng, quan tâm đến thiết bị Switch Cisco và Wifi Aruba chất lượng cao, nhờ công ty tư vấn và báo giá giúp.",5 ngày,,
+OPP-2026-004,Bệnh viện Đa khoa Quốc tế Gama,BS. Phạm Minh Tuấn,tuan.pm@gamahosp.com,"Cần mua 10 Bộ lưu điện APC Smart-UPS RT 3000VA (kho Minh An chỉ có 4 cái) và yêu cầu giao toàn bộ trong vòng 2 ngày.",2 ngày,400000000,0%
+OPP-2026-005,Trường Quốc tế Epsilon,Đỗ Thị Hương,huong.do@epsilon.edu.vn,"Cần mua 10 Bộ phát Wifi Aruba AP-505 và 1 Switch Cisco Catalyst 9200L 24 Ports PoE+. Triển khai hoàn tất trong 14 ngày.",14 ngày,140000000,7%
+OPP-2026-006,Ngân hàng Thương mại Zeta,Vũ Đình Long,long.vd@zetabank.com.vn,"Cần gấp báo giá 3 Máy chủ Dell PowerEdge R750 và 5 Bộ lưu điện APC Smart-UPS RT 3000VA và 3 Tường lửa Fortinet FortiGate 60F.",15 ngày,650000000,10%
+OPP-2026-007,Công ty Khởi nghiệp Theta,Nguyễn Văn Bình,binh@thetastartup.vn,"Chúng tôi cần 2 Máy chủ Dell PowerEdge R750 phục vụ chạy AI, nhưng ngân sách công ty hiện chỉ có 50.000.000 VNĐ.",15 ngày,50000000,0%
+
+

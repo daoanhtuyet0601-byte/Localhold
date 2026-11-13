@@ -1,0 +1,1820 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Minh An Tech - AI Agent B2B Sales System</title>
+  <!-- Tailwind CSS từ gstatic allowlisted -->
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <style>
+    :root {
+      --bg-cream: #f7f6f3;
+      --card-white: #ffffff;
+      --border-subtle: #e8e6e1;
+      --text-dark: #1e1d1b;
+      --text-muted: #7d7a74;
+      --espresso-from: #2e1e17;
+      --espresso-to: #1a110c;
+      --bronze-from: #a67d58;
+      --bronze-to: #765335;
+    }
+    body {
+      background-color: var(--bg-cream);
+      color: var(--text-dark);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: rgba(0, 0, 0, 0.03);
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: rgba(0, 0, 0, 0.18);
+      border-radius: 4px;
+    }
+    .espresso-card {
+      background: linear-gradient(135deg, #2e1e17 0%, #1a110c 100%);
+      box-shadow: 0 10px 25px -5px rgba(28, 18, 13, 0.25);
+    }
+    .bronze-card {
+      background: linear-gradient(135deg, #a67d58 0%, #765335 100%);
+      box-shadow: 0 10px 25px -5px rgba(118, 83, 53, 0.25);
+    }
+    .soft-shadow {
+      box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.04), 0 2px 6px -1px rgba(0, 0, 0, 0.02);
+    }
+    .floating-card {
+      box-shadow: 0 20px 30px -10px rgba(0, 0, 0, 0.08), 0 8px 12px -4px rgba(0, 0, 0, 0.03);
+    }
+    button, [role="button"], .interactive-btn {
+      cursor: pointer !important;
+      user-select: none;
+    }
+    button:active, .interactive-btn:active {
+      transform: scale(0.97);
+    }
+  </style>
+</head>
+<body class="p-3 md:p-6 custom-scrollbar text-sm">
+
+  <!-- TOAST NOTIFICATION CONTAINER -->
+  <div id="toast-container" class="fixed top-5 right-5 z-50 flex flex-col space-y-2 pointer-events-none"></div>
+
+  <!-- ============================================================== -->
+  <!-- 1. TRANG CHỜ / SPLASH LANDING PAGE (WELCOME SCREEN)           -->
+  <!-- ============================================================== -->
+  <div id="page-welcome" class="max-w-[1280px] mx-auto space-y-8 py-4 md:py-8">
+    
+    <!-- Top Nav of Welcome Screen -->
+    <header class="flex items-center justify-between bg-white rounded-3xl px-6 py-4 border border-[#e8e6e1] soft-shadow">
+      <div class="flex items-center space-x-3">
+        <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-[#2e1e17] to-[#593b2e] flex items-center justify-center text-white font-bold text-base shadow-md">
+          MA
+        </div>
+        <div>
+          <h1 class="font-bold text-sm text-[#1e1d1b] tracking-tight">CÔNG TY CỔ PHẦN CÔNG NGHỆ MINH AN</h1>
+          <span class="text-[10px] uppercase tracking-wider text-[#8a867f] font-semibold">B2B AI Agent Solution • AI301 Đề 01</span>
+        </div>
+      </div>
+
+      <div class="flex items-center space-x-3">
+        <span class="hidden sm:inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-800 border border-emerald-200">
+          <span class="w-2 h-2 rounded-full bg-emerald-500 mr-1.5 animate-pulse"></span>
+          Agent Core v2.4 Sẵn Sàng
+        </span>
+        <button onclick="enterWorkspace('workflow')" class="interactive-btn px-5 py-2.5 bg-[#2e1e17] hover:bg-[#452e24] text-white rounded-2xl text-xs font-bold shadow-md transition flex items-center gap-2">
+          <span>Vào Hệ Thống</span>
+          <span>→</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Hero Presentation Card (Theo phong cách Styleguide của ảnh mẫu) -->
+    <section class="bg-white rounded-3xl p-6 md:p-12 border border-[#e8e6e1] soft-shadow grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative overflow-hidden">
+      
+      <!-- Left Content -->
+      <div class="lg:col-span-7 space-y-6 relative z-10">
+        <div class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-[#f5ebe1] text-[#765335]">
+          ★ GIẢI PHÁP AI AGENT XỬ LÝ CƠ HỘI BÁN HÀNG B2B
+        </div>
+
+        <div class="space-y-3">
+          <h2 class="font-serif text-3xl md:text-5xl font-extrabold text-[#1e1d1b] leading-tight">
+            Tự động hóa Quy trình B2B Minh An
+          </h2>
+          <p class="text-sm md:text-base text-[#5c5953] leading-relaxed">
+            Giải quyết triệt để 3 vấn đề: bỏ sót hạng mục, dùng sai giá cũ và cam kết thời hạn bất khả thi. Tích hợp chuỗi 3 Skill nghiệp vụ tự động hóa và 2 điểm kiểm soát con người (Human-in-the-loop).
+          </p>
+        </div>
+
+        <!-- 3 Feature Chips -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2 text-xs">
+          <div class="p-3 rounded-2xl bg-[#fcfbfa] border border-[#e8e6e1] space-y-1">
+            <b class="text-[#2e1e17] block">⚡ 180 Leads / tuần</b>
+            <span class="text-[#7d7a74] text-[11px]">Xử lý tự động hóa 100%, không nhập tay</span>
+          </div>
+          <div class="p-3 rounded-2xl bg-[#fcfbfa] border border-[#e8e6e1] space-y-1">
+            <b class="text-[#2e1e17] block">🔒 An toàn thẩm quyền</b>
+            <span class="text-[#7d7a74] text-[11px]">Không tự ý chốt đơn khi vượt quyền hạn</span>
+          </div>
+          <div class="p-3 rounded-2xl bg-[#fcfbfa] border border-[#e8e6e1] space-y-1">
+            <b class="text-[#2e1e17] block">🎯 WFL 6 Bước Chuẩn</b>
+            <span class="text-[#7d7a74] text-[11px]">Bắt lỗi đỏ to đùng & 2 feedback loop</span>
+          </div>
+        </div>
+
+        <!-- Big CTA Enter Button -->
+        <div class="pt-4 flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+          <button onclick="enterWorkspace('workflow')" class="interactive-btn px-8 py-4 bg-[#2e1e17] hover:bg-[#452e24] text-white rounded-2xl text-sm font-bold shadow-xl transition flex items-center justify-center gap-3">
+            <span>🚀 VÀO HỆ THỐNG XỬ LÝ (BẮT ĐẦU NGAY)</span>
+            <span class="text-base">→</span>
+          </button>
+          <button onclick="enterWorkspace('dashboard')" class="interactive-btn px-6 py-4 bg-[#f7f6f3] hover:bg-[#eae8e3] text-[#1e1d1b] rounded-2xl text-xs font-bold border border-[#e8e6e1] transition text-center">
+            Xem Dashboard Tổng Quan
+          </button>
+        </div>
+      </div>
+
+      <!-- Right Visual Preview Cards (Mô phỏng các thẻ nổi trong ảnh mẫu) -->
+      <div class="lg:col-span-5 relative space-y-4">
+        
+        <!-- Floating Espresso Card -->
+        <div class="espresso-card rounded-3xl p-6 text-white floating-card relative z-10 transform lg:-rotate-1 hover:rotate-0 transition duration-300">
+          <div class="flex justify-between items-center mb-3">
+            <span class="text-xs text-[#d4bca7] font-medium tracking-wide">DỰ BÁO DOANH SỐ TUẦN</span>
+            <span class="px-2 py-0.5 rounded-full bg-white/10 text-[10px] font-mono text-[#d4bca7]">•••• B2B DEALS</span>
+          </div>
+          <div class="text-3xl font-extrabold font-mono text-white mb-2">1,087,625,000 ₫</div>
+          <div class="flex items-center justify-between text-xs text-[#d4bca7]/80 pt-3 border-t border-white/10">
+            <span>7 Cơ hội tiếp nhận</span>
+            <span class="text-emerald-400 font-bold">100% Khả thi & Chờ duyệt</span>
+          </div>
+        </div>
+
+        <!-- Floating Status Pills -->
+        <div class="grid grid-cols-2 gap-3 relative z-10">
+          <div class="bg-white p-3.5 rounded-2xl border border-[#e8e6e1] soft-shadow flex items-center space-x-2.5">
+            <div class="w-8 h-8 rounded-xl bg-emerald-100 text-emerald-800 font-bold flex items-center justify-center text-xs">✓</div>
+            <div>
+              <span class="text-xs font-bold text-[#1e1d1b] block">1 Tiếp Tục</span>
+              <span class="text-[10px] text-[#7d7a74]">Đủ ĐK báo giá</span>
+            </div>
+          </div>
+          <div class="bg-white p-3.5 rounded-2xl border border-[#e8e6e1] soft-shadow flex items-center space-x-2.5">
+            <div class="w-8 h-8 rounded-xl bg-indigo-100 text-indigo-800 font-bold flex items-center justify-center text-xs">⏳</div>
+            <div>
+              <span class="text-xs font-bold text-[#1e1d1b] block">3 Chờ Duyệt</span>
+              <span class="text-[10px] text-[#7d7a74]">Trình Trưởng phòng</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Floating Step Banner -->
+        <div class="bronze-card rounded-2xl p-4 text-white text-xs space-y-1.5 soft-shadow">
+          <div class="font-bold flex items-center justify-between">
+            <span>Chuỗi 6 Bước Khép Kín</span>
+            <span class="text-[10px] bg-white/20 px-2 py-0.5 rounded">RACI</span>
+          </div>
+          <p class="text-[11px] text-[#f5ebe1]/80">Import (Bắt lỗi đỏ) → Cleaning → Human 1 → Processing → Output → Human 2 & Export.</p>
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- Bottom Overview 4 Features -->
+    <section class="grid grid-cols-1 md:grid-cols-4 gap-4">
+      <div class="bg-white p-5 rounded-3xl border border-[#e8e6e1] soft-shadow space-y-2">
+        <div class="w-8 h-8 rounded-xl bg-[#2e1e17] text-white flex items-center justify-center font-bold text-xs">1</div>
+        <h4 class="font-bold text-xs text-[#1e1d1b]">Tiếp Nhận & Bóc Tách</h4>
+        <p class="text-[11px] text-[#5c5953]">Kiểm tra khóa chính, bắt lỗi đỏ to đùng nếu thiếu, tự động chuẩn hóa SKU và số lượng.</p>
+      </div>
+
+      <div class="bg-white p-5 rounded-3xl border border-[#e8e6e1] soft-shadow space-y-2">
+        <div class="w-8 h-8 rounded-xl bg-[#765335] text-white flex items-center justify-center font-bold text-xs">2</div>
+        <h4 class="font-bold text-xs text-[#1e1d1b]">Kho & Đơn Giá Chuẩn</h4>
+        <p class="text-[11px] text-[#5c5953]">Đối chiếu tồn khả dụng, tính lead-time giao hàng khả thi, áp dụng chiết khấu bậc thang.</p>
+      </div>
+
+      <div class="bg-white p-5 rounded-3xl border border-[#e8e6e1] soft-shadow space-y-2">
+        <div class="w-8 h-8 rounded-xl bg-[#2e1e17] text-white flex items-center justify-center font-bold text-xs">3</div>
+        <h4 class="font-bold text-xs text-[#1e1d1b]">Human-in-the-Loop</h4>
+        <p class="text-[11px] text-[#5c5953]">2 vòng kiểm soát: NVKD rà soát email draft, Trưởng phòng duyệt chiết khấu đặc biệt.</p>
+      </div>
+
+      <div class="bg-white p-5 rounded-3xl border border-[#e8e6e1] soft-shadow space-y-2">
+        <div class="w-8 h-8 rounded-xl bg-emerald-800 text-white flex items-center justify-center font-bold text-xs">4</div>
+        <h4 class="font-bold text-xs text-[#1e1d1b]">Đề Xuất & Xuất File</h4>
+        <p class="text-[11px] text-[#5c5953]">Tự động xuất Draft Email, Phiếu trình duyệt, xuất báo cáo ra Excel (.CSV) và HTML.</p>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- 2. TRANG LÀM VIỆC CHÍNH (MAIN WORKSPACE CONTAINER)             -->
+  <!-- ============================================================== -->
+  <div id="page-workspace" class="hidden max-w-[1440px] mx-auto flex flex-col md:flex-row gap-6">
+
+    <!-- LEFT SIDEBAR -->
+    <aside class="w-full md:w-60 flex-shrink-0 space-y-6">
+      
+      <!-- Brand & Back Button -->
+      <div class="space-y-2">
+        <button onclick="exitToWelcome()" class="interactive-btn w-full flex items-center space-x-2 px-3 py-2 rounded-xl bg-[#f0eeeb] hover:bg-[#e4e1dc] text-[#2e1e17] text-xs font-bold transition">
+          <span>← Quay lại Trang Chờ</span>
+        </button>
+
+        <div class="flex items-center space-x-3 px-2 pt-2">
+          <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-[#2e1e17] to-[#593b2e] flex items-center justify-center text-white font-bold text-base shadow-md">
+            MA
+          </div>
+          <div>
+            <h2 class="font-bold text-sm text-[#1e1d1b] tracking-tight">MINH AN TECH</h2>
+            <span class="text-[10px] uppercase tracking-wider text-[#8a867f] font-semibold">AI301 | Đề 01</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Navigation Tabs -->
+      <nav class="space-y-1.5 text-xs font-medium text-[#5c5953]">
+        <button onclick="switchWorkspaceTab('workflow')" id="nav-workflow" class="interactive-btn w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl bg-white text-[#1e1d1b] font-semibold soft-shadow border border-[#eae8e3] transition">
+          <svg class="w-4 h-4 text-[#1e1d1b]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+          <span>1. Quy trình WFL 6 Bước</span>
+        </button>
+
+        <button onclick="switchWorkspaceTab('dashboard')" id="nav-dashboard" class="interactive-btn w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl hover:bg-white/80 hover:text-[#1e1d1b] transition">
+          <svg class="w-4 h-4 text-[#7d7a74]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+          <span>2. Bảng Điều Khiển (Dashboard)</span>
+        </button>
+
+        <button onclick="switchWorkspaceTab('report')" id="nav-report" class="interactive-btn w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl hover:bg-white/80 hover:text-[#1e1d1b] transition">
+          <svg class="w-4 h-4 text-[#7d7a74]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+          <span>3. Báo cáo Task 1 & Thiết kế</span>
+        </button>
+
+        <button onclick="switchWorkspaceTab('catalog')" id="nav-catalog" class="interactive-btn w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl hover:bg-white/80 hover:text-[#1e1d1b] transition">
+          <svg class="w-4 h-4 text-[#7d7a74]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
+          <span>4. Bảng giá & Tồn kho chuẩn</span>
+        </button>
+
+        <div class="pt-4 border-t border-[#e8e6e1]/80 space-y-1">
+          <div class="px-3 text-[10px] font-semibold text-[#a39f98] uppercase tracking-wider">Thông tin Hệ thống</div>
+          <div class="px-3 py-2.5 rounded-xl bg-white/60 border border-[#eae8e3] text-[11px] text-[#5c5953] space-y-1.5">
+            <div class="flex justify-between"><span class="text-[#8c8983]">Môn học:</span> <b class="text-[#2e1e17]">AI301</b></div>
+            <div class="flex justify-between"><span class="text-[#8c8983]">Mã đề:</span> <b class="text-[#2e1e17]">Đề số 01</b></div>
+            <div class="flex justify-between"><span class="text-[#8c8983]">Quy mô:</span> <span>180 leads/w</span></div>
+            <div class="flex justify-between"><span class="text-[#8c8983]">Localhost:</span> <span class="font-mono text-emerald-600 font-bold">:3000</span></div>
+          </div>
+        </div>
+      </nav>
+    </aside>
+
+    <!-- RIGHT MAIN CONTENT (WORKSPACE BODY) -->
+    <main class="flex-1 space-y-6">
+
+      <!-- KHU VỰC NẠP DỮ LIỆU ĐẦU VÀO TRỰC TIẾP -->
+      <div class="bg-white rounded-3xl p-5 md:p-6 border border-[#e8e6e1] soft-shadow space-y-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-3 border-b border-[#f0eeeb] gap-2">
+          <div>
+            <h3 class="font-serif text-base font-bold text-[#1e1d1b] flex items-center gap-2">
+              <svg class="w-5 h-5 text-[#765335]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/></svg>
+              KHU VỰC NẠP DỮ LIỆU ĐẦU VÀO (UPLOAD / GOOGLE SHEETS / DÁN DỮ LIỆU)
+            </h3>
+            <p class="text-xs text-[#7d7a74]">Chọn tệp tin, dán link Google Sheets hoặc bấm nạp nhanh dữ liệu mẫu Đề 01.</p>
+          </div>
+          <span class="inline-flex items-center px-2.5 py-1 rounded-full text-[11px] font-semibold bg-emerald-100 text-emerald-800">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-600 mr-1.5 animate-pulse"></span>
+            Hệ thống đang hoạt động
+          </span>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-4">
+          <!-- Cổng 1: Upload File -->
+          <div class="lg:col-span-5 border-2 border-dashed border-[#d6cfc5] rounded-2xl p-4 bg-[#fcfbfa] hover:border-[#765335] transition flex flex-col justify-between space-y-3">
+            <div>
+              <span class="text-xs font-bold text-[#2e1e17] flex items-center gap-1.5">
+                <svg class="w-4 h-4 text-[#765335]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/></svg>
+                1. Tải lên file (.CSV, .TXT)
+              </span>
+              <p class="text-[11px] text-[#7d7a74] mt-1">Chọn file từ máy tính để AI kiểm tra khóa chính.</p>
+            </div>
+            <input type="file" id="direct-file-input" accept=".csv,.txt" onchange="handleDirectFileUpload(event)" class="text-xs text-[#5c5953] file:mr-2 file:py-1.5 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-[#2e1e17] file:text-white hover:file:bg-[#452e24] file:cursor-pointer cursor-pointer w-full">
+          </div>
+
+          <!-- Cổng 2: Google Sheets -->
+          <div class="lg:col-span-4 border border-[#e8e6e1] rounded-2xl p-4 bg-[#fcfbfa] flex flex-col justify-between space-y-3">
+            <div>
+              <span class="text-xs font-bold text-[#2e1e17] flex items-center gap-1.5">
+                <svg class="w-4 h-4 text-emerald-600" fill="currentColor" viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 14h-2v-4h2v4zm0-6h-2V7h2v4zm4 6h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
+                2. Link Google Sheets
+              </span>
+              <p class="text-[11px] text-[#7d7a74] mt-1">Dán liên kết trang tính xem công khai.</p>
+            </div>
+            <div class="flex items-center space-x-1.5">
+              <input type="text" id="direct-gsheet-url" placeholder="https://docs.google.com/spreadsheets/..." class="w-full bg-white border border-[#e8e6e1] rounded-xl px-2.5 py-1.5 text-xs text-[#1e1d1b] focus:outline-none focus:border-[#765335]">
+              <button onclick="handleDirectGoogleSheet()" class="interactive-btn px-3 py-1.5 rounded-xl bg-emerald-700 hover:bg-emerald-600 text-white font-bold text-xs whitespace-nowrap shadow-sm">
+                Nạp Sheet
+              </button>
+            </div>
+          </div>
+
+          <!-- Cổng 3: Nạp Test Nhanh -->
+          <div class="lg:col-span-3 border border-[#e8e6e1] rounded-2xl p-4 bg-[#fcfbfa] flex flex-col justify-between space-y-2">
+            <span class="text-xs font-bold text-[#2e1e17]">3. Dữ liệu Test Mẫu Đề 01</span>
+            <button onclick="loadValidDataset()" class="interactive-btn w-full py-2 px-3 rounded-xl bg-[#2e1e17] hover:bg-[#452e24] text-white text-xs font-bold shadow-sm transition">
+              ✓ Nạp Mẫu Chuẩn (7 Ca)
+            </button>
+            <button onclick="loadInvalidDataset()" class="interactive-btn w-full py-2 px-3 rounded-xl bg-rose-700 hover:bg-rose-600 text-white text-xs font-bold shadow-sm transition">
+              ✕ Thử File Lỗi (Xem ERROR)
+            </button>
+          </div>
+        </div>
+
+        <details class="text-xs text-[#7d7a74]">
+          <summary class="cursor-pointer hover:text-[#1e1d1b] font-bold select-none">Xem / Chỉnh sửa nội dung văn bản CSV đang nạp vào</summary>
+          <textarea id="direct-raw-textarea" rows="4" class="w-full mt-2 bg-[#fcfbfa] p-3 rounded-xl border border-[#e8e6e1] text-[#1e1d1b] font-mono text-xs focus:outline-none focus:border-[#765335] custom-scrollbar"></textarea>
+          <div class="mt-2 flex justify-end">
+            <button onclick="processDataFromTextarea()" class="interactive-btn px-4 py-1.5 bg-[#765335] hover:bg-[#5f4229] text-white rounded-xl text-xs font-bold">
+              Cập nhật lại từ ô nhập liệu
+            </button>
+          </div>
+        </details>
+      </div>
+
+      <!-- WORKSPACE TAB 1: WORKFLOW 6 BƯỚC -->
+      <div id="ws-tab-workflow" class="space-y-6">
+
+        <!-- Stepper Node Header -->
+        <div class="bg-white rounded-2xl p-4 border border-[#e8e6e1] soft-shadow">
+          <div class="flex items-center justify-between pb-3 border-b border-[#f0eeeb] mb-3">
+            <span class="text-xs font-bold text-[#765335] uppercase">Tiến trình WFL 6 Bước:</span>
+            <span class="text-xs font-bold text-[#1e1d1b]" id="wfl-step-badge">BƯỚC 1: IMPORT & VALIDATION</span>
+          </div>
+
+          <div class="grid grid-cols-6 gap-2 text-center text-xs">
+            <button onclick="setWorkflowStep(1)" id="step-btn-1" class="interactive-btn p-2 rounded-xl bg-[#2e1e17] text-white font-bold transition">1. Import</button>
+            <button onclick="setWorkflowStep(2)" id="step-btn-2" class="interactive-btn p-2 rounded-xl bg-[#f7f6f3] text-[#7d7a74] transition">2. Cleaning</button>
+            <button onclick="setWorkflowStep(3)" id="step-btn-3" class="interactive-btn p-2 rounded-xl bg-[#f7f6f3] text-[#7d7a74] transition">3. Human 1</button>
+            <button onclick="setWorkflowStep(4)" id="step-btn-4" class="interactive-btn p-2 rounded-xl bg-[#f7f6f3] text-[#7d7a74] transition">4. Processing</button>
+            <button onclick="setWorkflowStep(5)" id="step-btn-5" class="interactive-btn p-2 rounded-xl bg-[#f7f6f3] text-[#7d7a74] transition">5. Output</button>
+            <button onclick="setWorkflowStep(6)" id="step-btn-6" class="interactive-btn p-2 rounded-xl bg-[#f7f6f3] text-[#7d7a74] transition">6. Human 2</button>
+          </div>
+        </div>
+
+        <!-- B1: Import & Error Handling -->
+        <div id="wfl-pane-1" class="bg-white rounded-3xl p-6 border border-[#e8e6e1] soft-shadow space-y-5">
+          <div class="flex items-center justify-between border-b border-[#f0eeeb] pb-3">
+            <div>
+              <h3 class="font-serif text-lg font-bold text-[#1e1d1b]">B1: Tiếp Nhận & Kiểm Tra Định Dạng Khóa Chính</h3>
+              <p class="text-xs text-[#7d7a74]">Quy tắc: File bắt buộc phải có các khóa chính: Mã yêu cầu, Tên khách hàng, Nội dung yêu cầu.</p>
+            </div>
+            <span class="px-2.5 py-1 rounded-full text-xs font-semibold bg-[#f5ebe1] text-[#765335]">Cổng kiểm định B1</span>
+          </div>
+
+          <!-- BIG RED ERROR BANNER -->
+          <div id="big-red-error-banner" class="hidden bg-rose-50 border-4 border-rose-600 rounded-3xl p-6 md:p-8 space-y-4 shadow-xl">
+            <div class="flex flex-col sm:flex-row sm:items-center gap-4">
+              <div class="text-6xl md:text-7xl font-black text-rose-600 tracking-wider animate-bounce select-none">
+                ERROR!
+              </div>
+              <div class="space-y-1">
+                <h4 class="text-lg font-black text-rose-900 uppercase">FILE THIẾU HOẶC SAI ĐỊNH DẠNG KHÓA CHÍNH BẮT BUỘC!</h4>
+                <p class="text-xs font-medium text-rose-800">Hệ thống đã khóa tiến trình và KHÔNG cho phép chuyển sang bước tiếp theo cho đến khi tải lại file hợp lệ.</p>
+              </div>
+            </div>
+
+            <div class="bg-white rounded-2xl p-4 border border-rose-300">
+              <span class="text-xs font-bold text-rose-900 uppercase block mb-2">Chi tiết các lỗi được phát hiện:</span>
+              <ul class="text-xs space-y-1 text-rose-800 font-medium" id="error-bullet-points"></ul>
+            </div>
+
+            <div class="flex items-center justify-between pt-2">
+              <span class="text-xs text-rose-700 italic">Vui lòng tải lại file có đủ các trường hoặc bấm "Nạp Mẫu Chuẩn" phía trên.</span>
+              <button onclick="loadValidDataset()" class="interactive-btn px-4 py-2 bg-rose-700 hover:bg-rose-800 text-white rounded-xl text-xs font-bold shadow-md">
+                Tải lại File Đạt Chuẩn Ngay
+              </button>
+            </div>
+          </div>
+
+          <!-- Valid File Notice -->
+          <div id="valid-file-notice" class="bg-emerald-50 border border-emerald-400 rounded-2xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs text-emerald-900">
+            <div class="flex items-center space-x-3">
+              <span class="w-8 h-8 rounded-full bg-emerald-600 text-white flex items-center justify-center font-bold text-sm flex-shrink-0">✓</span>
+              <div>
+                <b class="text-sm font-bold block">FILE HỢP LỆ & ĐẦY ĐỦ KHÓA CHÍNH!</b>
+                <span id="valid-file-desc" class="text-emerald-700 font-medium">Đã kiểm duyệt thành công 7 bản ghi cơ hội bán hàng B2B.</span>
+              </div>
+            </div>
+            <button onclick="setWorkflowStep(2)" class="interactive-btn px-5 py-2.5 bg-emerald-700 hover:bg-emerald-600 text-white rounded-xl font-bold shadow-sm whitespace-nowrap">
+              Next sang B2 (Cleaning AI) →
+            </button>
+          </div>
+        </div>
+
+        <!-- B2: Cleaning -->
+        <div id="wfl-pane-2" class="hidden bg-white rounded-3xl p-6 border border-[#e8e6e1] soft-shadow space-y-5">
+          <div class="flex items-center justify-between border-b border-[#f0eeeb] pb-3">
+            <div>
+              <h3 class="font-serif text-lg font-bold text-[#1e1d1b]">B2: AI Lọc Nhiễu, Chuẩn Hóa Dữ Liệu (Cleaning AI Edit)</h3>
+              <p class="text-xs text-[#7d7a74]">AI tự động chuẩn hóa SKU, bóc tách số lượng, làm sạch tiền tệ và tính toán ngày triển khai.</p>
+            </div>
+            <span class="px-2.5 py-1 rounded-full text-xs font-semibold bg-blue-50 text-blue-800">AI Automation</span>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="p-4 rounded-2xl bg-[#fcfbfa] border border-[#e8e6e1] space-y-2 text-xs">
+              <b class="text-[#2e1e17] block">Bộ lọc chuẩn hóa AI đã áp dụng:</b>
+              <p class="text-[#5c5953]">• Chuẩn hóa SKU danh mục Minh An (Dell R750, Cisco C9200, Aruba AP505...)</p>
+              <p class="text-[#5c5953]">• Tách số lượng mua từ văn bản tự nhiên</p>
+              <p class="text-[#5c5953]">• Chuẩn hóa số ngày triển khai và trường ngân sách</p>
+            </div>
+            <div class="p-4 rounded-2xl bg-emerald-50/60 border border-emerald-200 flex flex-col justify-between space-y-3">
+              <div>
+                <b class="text-xs text-emerald-900 block">Trạng thái: Đã làm sạch hoàn tất</b>
+                <p class="text-xs text-emerald-700 mt-1">Dữ liệu sẵn sàng để Người kiểm duyệt 1 (Human Check 1) đánh giá.</p>
+              </div>
+              <button onclick="setWorkflowStep(3)" class="interactive-btn w-full py-2.5 bg-[#2e1e17] hover:bg-[#452e24] text-white rounded-xl text-xs font-bold shadow-sm">
+                Next sang B3 (Người 1 Kiểm tra) →
+              </button>
+            </div>
+          </div>
+
+          <div class="overflow-x-auto custom-scrollbar border border-[#e8e6e1] rounded-2xl">
+            <table class="w-full text-left text-xs">
+              <thead class="bg-[#f7f6f3] text-[#5c5953] font-semibold">
+                <tr>
+                  <th class="p-3">Mã & Khách hàng</th>
+                  <th class="p-3">Hạng mục đã làm sạch</th>
+                  <th class="p-3 text-center">Thời hạn</th>
+                  <th class="p-3 text-right">Ngân sách sạch</th>
+                  <th class="p-3 text-center">Trạng thái bóc tách</th>
+                </tr>
+              </thead>
+              <tbody id="b2-cleaned-tbody" class="divide-y divide-[#f0eeeb] text-[#2e1e17]"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- B3: Human Check 1 -->
+        <div id="wfl-pane-3" class="hidden bg-white rounded-3xl p-6 border border-[#e8e6e1] soft-shadow space-y-5">
+          <div class="flex items-center justify-between border-b border-[#f0eeeb] pb-3">
+            <div>
+              <h3 class="font-serif text-lg font-bold text-[#1e1d1b]">B3: Người 1 Bắt Đầu Kiểm Tra Dữ Liệu Đã Lọc (Human Check 1)</h3>
+              <p class="text-xs text-[#7d7a74]">Có 2 trường hợp theo đúng workflow: Không OK (Feedback cho AI sửa lại) hoặc OK (Next sang B4).</p>
+            </div>
+            <span class="px-2.5 py-1 rounded-full text-xs font-semibold bg-amber-100 text-amber-900">Human Gate #1</span>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+            <div class="p-5 rounded-2xl bg-amber-50/50 border border-amber-300 space-y-3">
+              <div class="flex items-center space-x-2">
+                <span class="w-6 h-6 rounded-full bg-amber-600 text-white flex items-center justify-center font-bold text-xs">1</span>
+                <b class="text-xs text-amber-900 uppercase">Trường hợp 1: Không OK (Gửi Feedback)</b>
+              </div>
+              <p class="text-xs text-amber-800">Nhập những gì chưa hài lòng về bản lọc. AI sẽ đọc lại, kiểm tra lại file và cập nhật trực tiếp.</p>
+              <textarea id="b3-feedback-input" rows="3" class="w-full bg-white border border-amber-300 rounded-xl p-3 text-xs text-[#2e1e17] focus:outline-none" placeholder="Ví dụ: Đổi tên công ty Alpha; bổ sung 1 switch Cisco..."></textarea>
+              <button onclick="handleB3FeedbackAction()" class="interactive-btn w-full py-2.5 bg-amber-700 hover:bg-amber-600 text-white rounded-xl text-xs font-bold transition">
+                ↻ Gửi Feedback để AI Làm sạch Lại (Quay lại B2)
+              </button>
+            </div>
+
+            <div class="p-5 rounded-2xl bg-emerald-50/50 border border-emerald-300 space-y-3 flex flex-col justify-between">
+              <div class="space-y-3">
+                <div class="flex items-center space-x-2">
+                  <span class="w-6 h-6 rounded-full bg-emerald-600 text-white flex items-center justify-center font-bold text-xs">2</span>
+                  <b class="text-xs text-emerald-900 uppercase">Trường hợp 2: Dữ liệu Đã OK</b>
+                </div>
+                <p class="text-xs text-emerald-800">Bản lọc đã chuẩn xác. Người kiểm duyệt 1 xác nhận thông qua để chuyển sang bước AI tính toán sâu và đề xuất kinh doanh.</p>
+                <div class="p-3 bg-white rounded-xl border border-emerald-200 text-xs text-emerald-800">
+                  ✓ Người kiểm duyệt 1 xác nhận tính toàn vẹn của dữ liệu.
+                </div>
+              </div>
+              <button onclick="setWorkflowStep(4)" class="interactive-btn w-full py-2.5 bg-emerald-700 hover:bg-emerald-600 text-white rounded-xl text-xs font-bold shadow-sm transition">
+                ✓ Phê Duyệt OK & Next sang B4 (Processing) →
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- B4 & B5: Processing & Output -->
+        <div id="wfl-pane-4" class="hidden space-y-6">
+          <div class="bg-white rounded-3xl p-5 border border-[#e8e6e1] soft-shadow flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div>
+              <span class="text-xs font-bold text-[#765335] uppercase">B4 & B5: AI Đang Phân Tích Sâu & Xuất Kết Quả Đề Xuất</span>
+              <p class="text-xs text-[#5c5953]">AI đối chiếu kho khả dụng, tính lead-time, áp dụng chiết khấu bậc thang và thẩm định ma trận vượt quyền.</p>
+            </div>
+            <button onclick="setWorkflowStep(6)" class="interactive-btn px-5 py-2.5 bg-[#2e1e17] hover:bg-[#452e24] text-white rounded-xl text-xs font-bold shadow-md transition whitespace-nowrap">
+              Next sang B6 (Người Kiểm Duyệt Cuối) →
+            </button>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div class="espresso-card rounded-2xl p-5 text-white flex flex-col justify-between h-36">
+              <span class="text-xs text-[#d4bca7]">Tổng giá trị (Khả thi & Chờ duyệt)</span>
+              <div class="text-2xl font-bold font-mono tracking-tight" id="wfl-b5-val">1,087,625,000 ₫</div>
+              <span class="text-[11px] text-[#d4bca7]/80">Tính riêng deal đủ ĐK tiếp tục hoặc chờ duyệt</span>
+            </div>
+            <div class="espresso-card rounded-2xl p-5 text-white flex flex-col justify-between h-36">
+              <span class="text-xs text-[#d4bca7]">Tổng số Cơ hội Tiếp nhận</span>
+              <div class="text-2xl font-bold font-mono tracking-tight" id="wfl-b5-count">7 Hồ sơ</div>
+              <span class="text-[11px] text-[#d4bca7]/80">Tự động phân loại 100% không nhập tay</span>
+            </div>
+            <div class="espresso-card rounded-2xl p-5 text-white flex flex-col justify-between h-36">
+              <span class="text-xs text-[#d4bca7]">Kiểm soát Thẩm quyền</span>
+              <div class="text-2xl font-bold font-mono tracking-tight text-emerald-400">An Toàn Tuyệt Đối</div>
+              <span class="text-[11px] text-[#d4bca7]/80">3 cơ hội gắn cờ trình Trưởng phòng duyệt</span>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-3xl p-5 border border-[#e8e6e1] soft-shadow space-y-4">
+            <h4 class="font-serif text-base font-bold text-[#1e1d1b]">Bảng Đề Xuất Kinh Doanh Tự Động (Output B5)</h4>
+            <div class="overflow-x-auto custom-scrollbar border border-[#e8e6e1] rounded-2xl">
+              <table class="w-full text-left text-xs">
+                <thead class="bg-[#f7f6f3] text-[#5c5953] font-semibold">
+                  <tr>
+                    <th class="p-3">Mã & Khách hàng</th>
+                    <th class="p-3">Hạng mục yêu cầu</th>
+                    <th class="p-3 text-right">Giá đề xuất (VNĐ)</th>
+                    <th class="p-3 text-center">Trạng thái</th>
+                    <th class="p-3">Hành động tiếp theo</th>
+                  </tr>
+                </thead>
+                <tbody id="wfl-b5-tbody" class="divide-y divide-[#f0eeeb] text-[#2e1e17]"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- B6: Human Check 2 & Export -->
+        <div id="wfl-pane-6" class="hidden bg-white rounded-3xl p-6 border border-[#e8e6e1] soft-shadow space-y-6">
+          <div class="flex items-center justify-between border-b border-[#f0eeeb] pb-3">
+            <div>
+              <h3 class="font-serif text-lg font-bold text-[#1e1d1b]">B6: Người Kiểm Duyệt Cuối Cùng & Xuất Báo Cáo (Human Check 2)</h3>
+              <p class="text-xs text-[#7d7a74]">Trưởng phòng / Ban Giám đốc xem xét đề xuất cuối cùng. Có 2 trường hợp theo đúng workflow.</p>
+            </div>
+            <span class="px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-900">Cổng duyệt cuối</span>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+            <div class="p-5 rounded-2xl bg-amber-50/50 border border-amber-300 space-y-3">
+              <div class="flex items-center space-x-2">
+                <span class="w-6 h-6 rounded-full bg-amber-600 text-white flex items-center justify-center font-bold text-xs">1</span>
+                <b class="text-xs text-amber-900 uppercase">Trường hợp 1: Chưa OK (Feedback Điều chỉnh)</b>
+              </div>
+              <p class="text-xs text-amber-800">Ghi những feedback để AI chạy lại thuật toán hoặc điều chỉnh tham số chiết khấu/thời hạn.</p>
+              <textarea id="b6-feedback-input" rows="3" class="w-full bg-white border border-amber-300 rounded-xl p-3 text-xs text-[#2e1e17] focus:outline-none" placeholder="Ví dụ: Giảm chiết khấu của Beta xuống 12%; phê duyệt thời hạn khẩn cho Gama..."></textarea>
+              <button onclick="handleB6FeedbackAction()" class="interactive-btn w-full py-2.5 bg-amber-700 hover:bg-amber-600 text-white rounded-xl text-xs font-bold transition">
+                ↻ Gửi Feedback để AI Chạy Lại Mô Hình (Quay lại B4)
+              </button>
+            </div>
+
+            <div class="p-5 rounded-2xl bg-emerald-50/50 border border-emerald-300 space-y-3 flex flex-col justify-between">
+              <div class="space-y-3">
+                <div class="flex items-center space-x-2">
+                  <span class="w-6 h-6 rounded-full bg-emerald-600 text-white flex items-center justify-center font-bold text-xs">2</span>
+                  <b class="text-xs text-emerald-900 uppercase">Trường hợp 2: Hoàn Toàn OK (Xuất Báo Cáo)</b>
+                </div>
+                <p class="text-xs text-emerald-800">Trưởng phòng phê duyệt toàn bộ đề xuất. Bấm nút bên dưới để xuất tệp tin Excel (.csv) hoặc file HTML hoàn chỉnh.</p>
+                <div class="p-3 bg-white rounded-xl border border-emerald-200 text-xs text-emerald-800 space-y-1">
+                  <div>✓ Đã duyệt <b>1.087.625.000 VNĐ</b> ngân sách đủ điều kiện tiếp tục.</div>
+                  <div>✓ Đã chuẩn bị 7 Draft Emails và 3 Phiếu chuyển duyệt hợp lệ.</div>
+                </div>
+              </div>
+              <div class="flex gap-2">
+                <button onclick="doExportExcel()" class="interactive-btn flex-1 py-2.5 bg-emerald-700 hover:bg-emerald-600 text-white rounded-xl text-xs font-bold shadow-sm transition">
+                  📥 Xuất Excel (.CSV)
+                </button>
+                <button onclick="doExportHTML()" class="interactive-btn flex-1 py-2.5 bg-[#2e1e17] hover:bg-[#452e24] text-white rounded-xl text-xs font-bold shadow-sm transition">
+                  🌐 Xuất Báo Cáo HTML
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- WORKSPACE TAB 2: DASHBOARD TỔNG QUAN -->
+      <div id="ws-tab-dashboard" class="hidden space-y-6">
+        
+        <!-- Hero Espresso Cards -->
+        <div class="bg-white rounded-3xl p-5 md:p-6 border border-[#e8e6e1] soft-shadow space-y-6">
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            
+            <div class="espresso-card rounded-2xl p-5 text-white flex flex-col justify-between h-44 relative overflow-hidden">
+              <div class="flex items-center justify-between relative z-10">
+                <div class="w-7 h-7 rounded-full bg-white/10 flex items-center justify-center">
+                  <svg class="w-4 h-4 text-[#d4bca7]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                </div>
+                <span class="text-[11px] font-mono tracking-widest text-[#d4bca7] bg-white/10 px-2 py-0.5 rounded-full">•••• B2B DEALS</span>
+              </div>
+              <div class="relative z-10">
+                <span class="text-xs text-[#d4bca7] block font-light">Giá trị Khả thi & Chờ duyệt</span>
+                <div class="text-2xl font-bold tracking-tight mt-0.5 font-mono" id="dash-total-value">1,087,625,000 ₫</div>
+              </div>
+              <div class="absolute -right-8 -bottom-8 w-32 h-32 bg-[#a67d58]/20 rounded-full blur-2xl"></div>
+            </div>
+
+            <div class="espresso-card rounded-2xl p-5 text-white flex flex-col justify-between h-44 relative overflow-hidden">
+              <div class="flex items-center justify-between relative z-10">
+                <div class="w-7 h-7 rounded-full bg-white/10 flex items-center justify-center">
+                  <svg class="w-4 h-4 text-[#d4bca7]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
+                </div>
+                <span class="text-[11px] font-mono tracking-widest text-[#d4bca7] bg-white/10 px-2 py-0.5 rounded-full">•••• 6 NVKD</span>
+              </div>
+              <div class="relative z-10">
+                <span class="text-xs text-[#d4bca7] block font-light">Cơ hội Đã phân tích tự động</span>
+                <div class="text-2xl font-bold tracking-tight mt-0.5 font-mono" id="dash-total-count">7 Hồ sơ tiếp nhận</div>
+              </div>
+              <div class="absolute -right-8 -bottom-8 w-32 h-32 bg-[#4a3428]/40 rounded-full blur-2xl"></div>
+            </div>
+
+            <div class="espresso-card rounded-2xl p-5 text-white flex flex-col justify-between h-44 relative overflow-hidden">
+              <div class="flex items-center justify-between relative z-10">
+                <div class="w-7 h-7 rounded-full bg-white/10 flex items-center justify-center">
+                  <svg class="w-4 h-4 text-[#d4bca7]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+                </div>
+                <span class="text-[11px] font-mono tracking-widest text-[#d4bca7] bg-white/10 px-2 py-0.5 rounded-full">•••• GATEWAY 100%</span>
+              </div>
+              <div class="relative z-10">
+                <span class="text-xs text-[#d4bca7] block font-light">Không tự chốt khi vượt quyền</span>
+                <div class="text-2xl font-bold tracking-tight mt-0.5 font-mono text-emerald-400">An toàn tuyệt đối</div>
+              </div>
+              <div class="absolute -right-8 -bottom-8 w-32 h-32 bg-[#26a69a]/20 rounded-full blur-2xl"></div>
+            </div>
+
+          </div>
+
+          <!-- Dãy 5 Nút Tròn Thao Tác -->
+          <div class="flex flex-wrap items-center justify-center md:justify-start gap-6 pt-2 border-t border-[#f0eeea]">
+            <button onclick="loadValidDataset()" class="interactive-btn flex flex-col items-center group focus:outline-none">
+              <div class="w-12 h-12 rounded-full bg-[#2e1e17] text-white flex items-center justify-center shadow-md group-hover:bg-[#452e24] transition">
+                <svg class="w-5 h-5 text-[#f5ebe1]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/></svg>
+              </div>
+              <span class="text-xs text-[#4a4742] font-semibold mt-2">Nạp 7 Ca Test</span>
+            </button>
+
+            <button onclick="document.getElementById('direct-file-input').click()" class="interactive-btn flex flex-col items-center group focus:outline-none">
+              <div class="w-12 h-12 rounded-full bg-[#2e1e17] text-white flex items-center justify-center shadow-md group-hover:bg-[#452e24] transition">
+                <svg class="w-5 h-5 text-[#f5ebe1]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 13h6m-3-3v6m5 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+              </div>
+              <span class="text-xs text-[#4a4742] font-semibold mt-2">Tải File CSV</span>
+            </button>
+
+            <button onclick="document.getElementById('direct-gsheet-url').focus()" class="interactive-btn flex flex-col items-center group focus:outline-none">
+              <div class="w-12 h-12 rounded-full bg-[#2e1e17] text-white flex items-center justify-center shadow-md group-hover:bg-[#452e24] transition">
+                <svg class="w-5 h-5 text-[#f5ebe1]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/></svg>
+              </div>
+              <span class="text-xs text-[#4a4742] font-semibold mt-2">Google Sheet</span>
+            </button>
+
+            <button onclick="triggerRunAgentAnimation()" class="interactive-btn flex flex-col items-center group focus:outline-none">
+              <div class="w-12 h-12 rounded-full bg-[#a67d58] text-white flex items-center justify-center shadow-md group-hover:bg-[#8f6946] transition">
+                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+              </div>
+              <span class="text-xs text-[#1e1d1b] font-bold mt-2">Chạy Agent</span>
+            </button>
+
+            <button onclick="doExportExcel()" class="interactive-btn flex flex-col items-center group focus:outline-none">
+              <div class="w-12 h-12 rounded-full bg-[#f0eeeb] text-[#2e1e17] flex items-center justify-center shadow-sm group-hover:bg-[#e4e1dc] transition">
+                <svg class="w-5 h-5 text-[#2e1e17]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+              </div>
+              <span class="text-xs text-[#4a4742] font-semibold mt-2">Xuất Excel</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Status Badges Grid -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-3.5">
+          <div onclick="filterByStatusBadge('ĐỦ ĐIỀU KIỆN TIẾP TỤC')" id="badge-card-qualified" class="interactive-btn bg-white p-3.5 rounded-2xl border border-[#e8e6e1] soft-shadow flex items-center space-x-3 hover:border-emerald-500 transition">
+            <div class="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center font-bold text-sm">✓</div>
+            <div>
+              <div class="flex items-baseline space-x-1.5">
+                <span class="font-bold text-base text-[#1e1d1b]" id="badge-count-qualified">1</span>
+                <span class="text-[11px] font-semibold text-emerald-700">TIẾP TỤC</span>
+              </div>
+              <div class="text-[11px] text-[#7d7a74]" id="badge-val-qualified">47.895.000 ₫</div>
+            </div>
+          </div>
+
+          <div onclick="filterByStatusBadge('CẦN BỔ SUNG THÔNG TIN')" id="badge-card-needinfo" class="interactive-btn bg-white p-3.5 rounded-2xl border border-[#e8e6e1] soft-shadow flex items-center space-x-3 hover:border-amber-500 transition">
+            <div class="w-10 h-10 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center font-bold text-sm">?</div>
+            <div>
+              <div class="flex items-baseline space-x-1.5">
+                <span class="font-bold text-base text-[#1e1d1b]" id="badge-count-needinfo">1</span>
+                <span class="text-[11px] font-semibold text-amber-700">BỔ SUNG</span>
+              </div>
+              <div class="text-[11px] text-[#7d7a74]">Thiếu SKU / SL / Budget</div>
+            </div>
+          </div>
+
+          <div onclick="filterByStatusBadge('CHỜ DUYỆT')" id="badge-card-approval" class="interactive-btn bg-white p-3.5 rounded-2xl border border-[#e8e6e1] soft-shadow flex items-center space-x-3 hover:border-indigo-500 transition">
+            <div class="w-10 h-10 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center font-bold text-sm">⏳</div>
+            <div>
+              <div class="flex items-baseline space-x-1.5">
+                <span class="font-bold text-base text-[#1e1d1b]" id="badge-count-approval">3</span>
+                <span class="text-[11px] font-semibold text-indigo-700">CHỜ DUYỆT</span>
+              </div>
+              <div class="text-[11px] text-[#7d7a74]" id="badge-val-approval">1.039.730.000 ₫</div>
+            </div>
+          </div>
+
+          <div onclick="filterByStatusBadge('CHƯA ĐÁP ỨNG')" id="badge-card-notfeasible" class="interactive-btn bg-white p-3.5 rounded-2xl border border-[#e8e6e1] soft-shadow flex items-center space-x-3 hover:border-rose-500 transition">
+            <div class="w-10 h-10 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center font-bold text-sm">✕</div>
+            <div>
+              <div class="flex items-baseline space-x-1.5">
+                <span class="font-bold text-base text-[#1e1d1b]" id="badge-count-notfeasible">2</span>
+                <span class="text-[11px] font-semibold text-rose-700">CHƯA ĐÁP ỨNG</span>
+              </div>
+              <div class="text-[11px] text-[#7d7a74]">Kho / Deadline bất khả thi</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Next Steps Dossier & Table Split -->
+        <div class="bg-white rounded-3xl p-5 md:p-6 border border-[#e8e6e1] soft-shadow space-y-5">
+          <div class="flex items-center justify-between border-b border-[#f0eeeb] pb-3">
+            <h4 class="font-serif text-lg font-bold text-[#1e1d1b]">Hồ Sơ Chi Tiết Cơ Hội Đang Chọn</h4>
+            <span class="font-mono font-bold text-xs px-2.5 py-1 rounded-lg bg-[#2e1e17] text-[#f5ebe1]" id="dash-active-id">OPP-2026-001</span>
+          </div>
+
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
+            <div class="lg:col-span-4 bronze-card rounded-2xl p-5 text-white flex flex-col justify-between">
+              <div class="space-y-2">
+                <div class="flex justify-between items-center">
+                  <span class="text-xs uppercase tracking-wider text-[#f5ebe1]/80">Hồ sơ</span>
+                  <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-white/20" id="dash-status-tag">CHỜ DUYỆT</span>
+                </div>
+                <h4 class="text-lg font-bold text-white" id="dash-customer-name">Tập đoàn Alpha</h4>
+                <p class="text-xs text-[#f5ebe1]/80" id="dash-contact-info">LH: Nguyễn Văn Hùng | hung.nv@alpha.vn</p>
+              </div>
+
+              <div class="my-3 space-y-2 text-xs">
+                <div>✓ 1. Tiếp nhận & Bóc tách SKU</div>
+                <div>✓ 2. Đối chiếu Tồn kho & Đơn giá</div>
+                <div class="font-bold text-white">⏳ 3. Phê duyệt hạn mức thẩm quyền</div>
+                <div class="text-white/60">4. Phát hành báo giá & CRM</div>
+              </div>
+
+              <div class="pt-2 border-t border-white/20 flex justify-between items-center text-xs">
+                <span>Giá trị đề xuất:</span>
+                <span class="font-bold font-mono text-base" id="dash-amount">398.360.000 ₫</span>
+              </div>
+            </div>
+
+            <!-- Detail Tabs -->
+            <div class="lg:col-span-8 space-y-3">
+              <div class="flex border-b border-[#e8e6e1] text-xs font-medium">
+                <button onclick="switchDetailTab('items')" id="dtab-items" class="interactive-btn py-2 px-3 border-b-2 border-[#2e1e17] text-[#2e1e17] font-bold">1. Bóc tách & Tồn kho</button>
+                <button onclick="switchDetailTab('draft')" id="dtab-draft" class="interactive-btn py-2 px-3 border-b-2 border-transparent text-[#7d7a74] hover:text-[#1e1d1b]">2. Draft Email</button>
+                <button onclick="switchDetailTab('ticket')" id="dtab-ticket" class="interactive-btn py-2 px-3 border-b-2 border-transparent text-[#7d7a74] hover:text-[#1e1d1b]">3. Phiếu chuyển duyệt</button>
+                <button onclick="switchDetailTab('logs')" id="dtab-logs" class="interactive-btn py-2 px-3 border-b-2 border-transparent text-[#7d7a74] hover:text-[#1e1d1b]">4. Audit Trail</button>
+              </div>
+
+              <div id="dpanel-items" class="space-y-3">
+                <div class="max-h-44 overflow-y-auto custom-scrollbar border border-[#e8e6e1] rounded-xl">
+                  <table class="w-full text-left text-xs">
+                    <thead class="bg-[#f7f6f3] text-[#5c5953] font-semibold sticky top-0">
+                      <tr>
+                        <th class="p-2.5">Hạng mục SKU</th>
+                        <th class="p-2.5 text-center">Yêu cầu</th>
+                        <th class="p-2.5 text-center">Tồn kho</th>
+                        <th class="p-2.5 text-right">Đơn giá</th>
+                        <th class="p-2.5 text-right">Thành tiền</th>
+                      </tr>
+                    </thead>
+                    <tbody id="detail-items-table" class="divide-y divide-[#f0eeeb] text-[#2e1e17]"></tbody>
+                  </table>
+                </div>
+
+                <div class="bg-[#fcfbfa] p-3 rounded-xl border border-[#e8e6e1] text-xs space-y-1">
+                  <b class="text-[#2e1e17] block">Căn cứ & Đánh giá quy tắc:</b>
+                  <ul class="text-[11px] space-y-0.5 text-[#5c5953]" id="detail-rule-reasons"></ul>
+                </div>
+              </div>
+
+              <div id="dpanel-draft" class="hidden space-y-2">
+                <div class="flex justify-between items-center text-xs">
+                  <span class="text-[#7d7a74]" id="draft-to-email">Gửi tới: khachhang@alpha.vn</span>
+                  <button onclick="copyDraftEmailText()" class="interactive-btn px-3 py-1 rounded-lg bg-[#2e1e17] text-white text-[11px] font-semibold">Sao chép</button>
+                </div>
+                <div class="bg-[#fcfbfa] p-3 rounded-xl border border-[#e8e6e1] font-mono text-xs space-y-2 max-h-56 overflow-y-auto custom-scrollbar">
+                  <div class="font-bold text-[#765335]" id="draft-subject">Tiêu đề: ...</div>
+                  <div class="whitespace-pre-wrap text-[11px]" id="draft-body">Nội dung...</div>
+                </div>
+              </div>
+
+              <div id="dpanel-ticket" class="hidden space-y-3">
+                <div id="ticket-container" class="bg-[#fcfbfa] border border-[#d6cfc5] p-4 rounded-xl space-y-2 text-xs">
+                  <div class="flex justify-between items-center border-b border-[#e8e6e1] pb-2">
+                    <span class="font-bold text-[#2e1e17]" id="ticket-id">PHIẾU CHUYỂN DUYỆT</span>
+                    <span class="px-2 py-0.5 rounded bg-[#f5ebe1] text-[#765335] text-[10px] font-bold">CHỜ DUYỆT</span>
+                  </div>
+                  <div class="grid grid-cols-2 gap-2 text-[11px]">
+                    <div>Giá trị trình: <b class="font-mono text-[#1e1d1b]" id="ticket-amount">0 ₫</b></div>
+                    <div>Chiết khấu: <b class="font-mono text-[#765335]" id="ticket-discount">0%</b></div>
+                  </div>
+                  <div class="text-[11px] bg-white p-2 rounded border border-[#eae8e3]" id="ticket-reasons">...</div>
+                  <div class="flex gap-2 pt-1">
+                    <button onclick="approveTicketAction()" class="interactive-btn flex-1 py-1.5 bg-emerald-700 text-white rounded-lg text-xs font-bold">✓ Duyệt Ngay</button>
+                    <button onclick="rejectTicketAction()" class="interactive-btn flex-1 py-1.5 bg-rose-700 text-white rounded-lg text-xs font-bold">✗ Yêu Cầu Sửa</button>
+                  </div>
+                </div>
+                <div id="no-ticket-msg" class="hidden text-xs text-center text-[#8c8983] p-4 bg-[#fcfbfa] rounded-xl">Không cần duyệt.</div>
+              </div>
+
+              <div id="dpanel-logs" class="hidden space-y-2">
+                <div id="detail-logs" class="bg-[#1e1d1b] p-3 rounded-xl font-mono text-[11px] text-[#d4bca7] max-h-56 overflow-y-auto custom-scrollbar space-y-1"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Master Table -->
+        <div class="bg-white rounded-3xl p-5 md:p-6 border border-[#e8e6e1] soft-shadow space-y-4">
+          <div class="flex justify-between items-center">
+            <h4 class="font-serif text-base font-bold text-[#1e1d1b]">Danh Sách Toàn Bộ Cơ Hội (Bấm dòng để xem hồ sơ)</h4>
+            <span class="text-xs text-[#7d7a74]" id="dash-table-count">Đang hiển thị 7 cơ hội</span>
+          </div>
+          <div class="overflow-x-auto custom-scrollbar border border-[#e8e6e1] rounded-2xl">
+            <table class="w-full text-left text-xs border-collapse">
+              <thead>
+                <tr class="bg-[#f7f6f3] text-[#5c5953] font-semibold border-b border-[#e8e6e1]">
+                  <th class="p-3">Mã & Khách hàng</th>
+                  <th class="p-3">Nội dung yêu cầu</th>
+                  <th class="p-3 text-right">Đề xuất (VNĐ)</th>
+                  <th class="p-3 text-center">Trạng thái</th>
+                  <th class="p-3 text-center">Thao tác</th>
+                </tr>
+              </thead>
+              <tbody id="dash-opportunities-tbody" class="divide-y divide-[#f0eeeb] text-[#2e1e17]"></tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- WORKSPACE TAB 3: TASK 1 REPORT -->
+      <div id="ws-tab-report" class="hidden space-y-6">
+        <div class="bg-white rounded-3xl p-6 border border-[#e8e6e1] soft-shadow space-y-6">
+          <h2 class="font-serif text-xl font-bold text-[#1e1d1b] border-b border-[#f0eeeb] pb-3">
+            Báo cáo Nghiệp vụ Task 1 & Thiết kế Quy trình AI Agent (Minh An)
+          </h2>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div class="p-4 rounded-2xl bg-[#fcfbfa] border border-[#e8e6e1] space-y-2">
+              <span class="text-xs font-bold text-[#765335] uppercase">Vấn đề 1: Bỏ sót & Giá cũ</span>
+              <p class="text-xs text-[#5c5953]">NVKD đọc email thủ công, tra cứu bảng giá phân tán không đồng bộ.</p>
+              <p class="text-xs text-rose-700 font-medium">Hậu quả: Xói mòn biên lợi nhuận, tranh chấp hợp đồng.</p>
+            </div>
+            <div class="p-4 rounded-2xl bg-[#fcfbfa] border border-[#e8e6e1] space-y-2">
+              <span class="text-xs font-bold text-[#765335] uppercase">Vấn đề 2: Hứa hẹn sai hạn</span>
+              <p class="text-xs text-[#5c5953]">Cam kết theo mong muốn của khách trước khi kho xác nhận khả dụng.</p>
+              <p class="text-xs text-rose-700 font-medium">Hậu quả: Phạt SLA, vi phạm tiến độ bàn giao.</p>
+            </div>
+            <div class="p-4 rounded-2xl bg-[#fcfbfa] border border-[#e8e6e1] space-y-2">
+              <span class="text-xs font-bold text-[#765335] uppercase">Vấn đề 3: Tắc nghẽn thẩm quyền</span>
+              <p class="text-xs text-[#5c5953]">Thiếu quy tắc sàng lọc tự động và ticket SLA chuyển duyệt.</p>
+              <p class="text-xs text-rose-700 font-medium">Hậu quả: Tỷ lệ drop cơ hội cao, chu kỳ kéo dài gấp 3 lần.</p>
+            </div>
+          </div>
+
+          <div class="p-4 rounded-2xl bg-[#fcfbfa] border border-[#e8e6e1] space-y-3">
+            <h3 class="text-sm font-bold text-[#1e1d1b]">3 Bước AI Agent Tự thực hiện & 2 Điểm kiểm soát con người</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs text-[#4a4742]">
+              <div class="space-y-1.5">
+                <b class="text-[#765335]">3 Bước AI Agent tự động:</b>
+                <p>1. Bóc tách thực thể & Thẩm định tính đầy đủ của 180 leads/tuần.</p>
+                <p>2. Đối chiếu tồn kho khả dụng, tính lead-time và đơn giá chuẩn.</p>
+                <p>3. Tính chiết khấu bậc thang và sinh hồ sơ, draft email, phiếu duyệt.</p>
+              </div>
+              <div class="space-y-1.5">
+                <b class="text-emerald-800">2 Điểm kiểm soát con người (Human-in-the-loop):</b>
+                <p>1. <b>Trưởng phòng duyệt:</b> Khi deal > 300M hoặc CK vượt quota NVKD.</p>
+                <p>2. <b>NVKD rà soát email draft:</b> Đảm bảo cá nhân hóa trước khi phát hành.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- WORKSPACE TAB 4: CATALOG & POLICIES -->
+      <div id="ws-tab-catalog" class="hidden space-y-6">
+        <div class="bg-white rounded-3xl p-6 border border-[#e8e6e1] soft-shadow space-y-5">
+          <h2 class="font-serif text-xl font-bold text-[#1e1d1b] border-b border-[#f0eeeb] pb-3">
+            Danh mục Sản phẩm Chuẩn & Ma trận Chiết khấu
+          </h2>
+
+          <div class="overflow-x-auto custom-scrollbar border border-[#e8e6e1] rounded-2xl">
+            <table class="w-full text-left text-xs">
+              <thead class="bg-[#f7f6f3] text-[#5c5953] font-semibold">
+                <tr>
+                  <th class="p-3">SKU</th>
+                  <th class="p-3">Tên thiết bị / dịch vụ</th>
+                  <th class="p-3 text-center">Tồn kho khả dụng</th>
+                  <th class="p-3 text-center">Lead-time chuẩn</th>
+                  <th class="p-3 text-right">Đơn giá niêm yết</th>
+                </tr>
+              </thead>
+              <tbody id="catalog-table-body" class="divide-y divide-[#f0eeeb] text-[#2e1e17]"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </main>
+
+  </div>
+
+  <!-- JAVASCRIPT LOGIC ENGINE -->
+  <script>
+    // Master Catalog Data
+    const CATALOG_DATA = {
+      products: [
+        { sku: "SRV-DELL-R750", name: "Máy chủ Dell PowerEdge R750 (2x Intel Xeon, 64GB RAM)", category: "Máy chủ", list_price: 125000000, stock_qty: 5, lead_time_days: 3 },
+        { sku: "SW-CISCO-C9200", name: "Switch Cisco Catalyst 9200L 24 Ports PoE+", category: "Mạng", list_price: 42000000, stock_qty: 14, lead_time_days: 2 },
+        { sku: "AP-ARUBA-AP505", name: "Bộ phát Wifi Aruba AP-505 Unified Campus AP", category: "Mạng", list_price: 9500000, stock_qty: 30, lead_time_days: 1 },
+        { sku: "FW-FORTI-60F", name: "Tường lửa Fortinet FortiGate 60F Bundle 1 Yr", category: "Bảo mật", list_price: 28000000, stock_qty: 8, lead_time_days: 2 },
+        { sku: "UPS-APC-3KVA", name: "Bộ lưu điện APC Smart-UPS RT 3000VA On-Line", category: "Nguồn", list_price: 38500000, stock_qty: 4, lead_time_days: 4 },
+        { sku: "SVC-INSTALL-STD", name: "Dịch vụ lắp đặt và cấu hình hệ thống tiêu chuẩn", category: "Dịch vụ", list_price: 15000000, stock_qty: 999, lead_time_days: 1 }
+      ],
+      policies: {
+        discount_rules: [
+          { min_order_value: 0, max_order_value: 50000000, standard_discount_pct: 0, max_rep_discount_pct: 3 },
+          { min_order_value: 50000001, max_order_value: 200000000, standard_discount_pct: 5, max_rep_discount_pct: 8 },
+          { min_order_value: 200000001, max_order_value: 500000000, standard_discount_pct: 8, max_rep_discount_pct: 12 },
+          { min_order_value: 500000001, max_order_value: 9999999999, standard_discount_pct: 10, max_rep_discount_pct: 15 }
+        ],
+        approval_thresholds: { max_rep_order_value: 300000000 }
+      }
+    };
+
+    const VALID_CSV = `Mã yêu cầu,Tên khách hàng,Người liên hệ,Email liên hệ,Nội dung yêu cầu,Thời hạn mong muốn,Ngân sách dự kiến (VNĐ),Chiết khấu mong muốn (%)
+OPP-2026-001,Tập đoàn Công nghệ Alpha,Nguyễn Văn Hùng,hung.nv@alpha.vn,"Chúng tôi cần trang bị 2 Máy chủ Dell PowerEdge R750 và 4 Switch Cisco Catalyst 9200L cho phòng server chi nhánh mới kèm 1 Dịch vụ lắp đặt và cấu hình tiêu chuẩn.",7 ngày,450000000,5%
+OPP-2026-002,Công ty Tài chính Beta,Trần Thị Mai,mai.tran@beta.com,"Cần mua 12 Bộ phát Wifi Aruba AP-505 và 2 Tường lửa Fortinet FortiGate 60F. Đề nghị chiết khấu đặc biệt 16% cho đối tác lâu năm.",10 ngày,150000000,16%
+OPP-2026-003,Công ty Logistics Delta,Lê Hoàng Nam,nam.le@deltalog.vn,"Chào Minh An, chúng tôi đang nâng cấp mạng văn phòng, quan tâm đến thiết bị Switch Cisco và Wifi Aruba chất lượng cao, nhờ công ty tư vấn và báo giá giúp.",5 ngày,,
+OPP-2026-004,Bệnh viện Đa khoa Quốc tế Gama,BS. Phạm Minh Tuấn,tuan.pm@gamahosp.com,"Cần mua 10 Bộ lưu điện APC Smart-UPS RT 3000VA (kho Minh An chỉ có 4 cái) và yêu cầu giao toàn bộ trong vòng 2 ngày.",2 ngày,400000000,0%
+OPP-2026-005,Trường Quốc tế Epsilon,Đỗ Thị Hương,huong.do@epsilon.edu.vn,"Cần mua 10 Bộ phát Wifi Aruba AP-505 và 1 Switch Cisco Catalyst 9200L 24 Ports PoE+. Triển khai hoàn tất trong 14 ngày.",14 ngày,140000000,7%
+OPP-2026-006,Ngân hàng Thương mại Zeta,Vũ Đình Long,long.vd@zetabank.com.vn,"Cần gấp báo giá 3 Máy chủ Dell PowerEdge R750 và 5 Bộ lưu điện APC Smart-UPS RT 3000VA và 3 Tường lửa Fortinet FortiGate 60F.",15 ngày,650000000,10%
+OPP-2026-007,Công ty Khởi nghiệp Theta,Nguyễn Văn Bình,binh@thetastartup.vn,"Chúng tôi cần 2 Máy chủ Dell PowerEdge R750 phục vụ chạy AI, nhưng ngân sách công ty hiện chỉ có 50.000.000 VNĐ.",15 ngày,50000000,0%`;
+
+    const INVALID_CSV = `STT,Tên giao dịch,Nội dung chung chung
+1,Khách vãng lai,Hỏi mua thiết bị không rõ mã
+2,Doanh nghiệp tạm,Chưa có thông tin ngân sách`;
+
+    let currentRawData = VALID_CSV;
+    let currentDataset = [];
+    let selectedOpp = null;
+    let activeFilter = 'ALL';
+    let isCurrentFileValid = true;
+
+    function showToast(msg, type = 'success') {
+      const container = document.getElementById('toast-container');
+      const toast = document.createElement('div');
+      let bg = 'bg-[#2e1e17] text-white border border-[#a67d58]/40';
+      if (type === 'success') bg = 'bg-emerald-900 text-white border border-emerald-500';
+      else if (type === 'error') bg = 'bg-rose-900 text-white border border-rose-500';
+      else if (type === 'info') bg = 'bg-[#2e1e17] text-[#f5ebe1] border border-[#d4bca7]/40';
+
+      toast.className = `${bg} px-4 py-3 rounded-2xl shadow-2xl text-xs font-semibold flex items-center space-x-2.5 transition-all duration-300 transform translate-y-2 opacity-0`;
+      toast.innerHTML = `<span class="w-2 h-2 rounded-full ${type === 'success' ? 'bg-emerald-400' : (type === 'error' ? 'bg-rose-400' : 'bg-[#d4bca7]')}"></span><span>${msg}</span>`;
+      container.appendChild(toast);
+
+      requestAnimationFrame(() => toast.classList.remove('translate-y-2', 'opacity-0'));
+      setTimeout(() => {
+        toast.classList.add('opacity-0', 'translate-y-2');
+        setTimeout(() => toast.remove(), 300);
+      }, 3500);
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      renderCatalog();
+      loadValidDataset();
+    });
+
+    // PAGE TRANSITION (WELCOME SCREEN <-> WORKSPACE)
+    function enterWorkspace(tab = 'workflow') {
+      document.getElementById('page-welcome').classList.add('hidden');
+      document.getElementById('page-workspace').classList.remove('hidden');
+      switchWorkspaceTab(tab);
+      showToast('Đã truy cập vào Không gian làm việc AI Agent!', 'success');
+    }
+
+    function exitToWelcome() {
+      document.getElementById('page-workspace').classList.add('hidden');
+      document.getElementById('page-welcome').classList.remove('hidden');
+      showToast('Đã quay lại Trang Chờ (Welcome Screen)', 'info');
+    }
+
+    // WORKSPACE TABS
+    function switchWorkspaceTab(tab) {
+      ['workflow', 'dashboard', 'report', 'catalog'].forEach(t => {
+        const el = document.getElementById(`ws-tab-${t}`);
+        if (el) el.classList.add('hidden');
+        const nav = document.getElementById(`nav-${t}`);
+        if (nav) {
+          nav.classList.remove('bg-white', 'text-[#1e1d1b]', 'font-semibold', 'soft-shadow', 'border');
+          nav.classList.add('hover:bg-white/80', 'text-[#5c5953]');
+        }
+      });
+      const activeEl = document.getElementById(`ws-tab-${tab}`);
+      if (activeEl) activeEl.classList.remove('hidden');
+      const activeNav = document.getElementById(`nav-${tab}`);
+      if (activeNav) {
+        activeNav.classList.add('bg-white', 'text-[#1e1d1b]', 'font-semibold', 'soft-shadow', 'border', 'border-[#eae8e3]');
+      }
+    }
+
+    // WFL STEPPER
+    function setWorkflowStep(step) {
+      if (!isCurrentFileValid && step > 1) {
+        showToast('FILE ĐANG LỖI! Hãy nạp file đạt chuẩn trước khi sang bước tiếp theo.', 'error');
+        return;
+      }
+
+      for (let i = 1; i <= 6; i++) {
+        const p = document.getElementById(`wfl-pane-${i}`);
+        if (p) p.classList.add('hidden');
+        const btn = document.getElementById(`step-btn-${i}`);
+        if (btn) btn.className = 'interactive-btn p-2 rounded-xl bg-[#f7f6f3] text-[#7d7a74] transition';
+      }
+
+      const targetPane = (step === 5) ? 4 : step;
+      const activePane = document.getElementById(`wfl-pane-${targetPane}`);
+      if (activePane) activePane.classList.remove('hidden');
+
+      const activeBtn = document.getElementById(`step-btn-${step}`);
+      if (activeBtn) activeBtn.className = 'interactive-btn p-2 rounded-xl bg-[#2e1e17] text-white font-bold transition';
+
+      const badge = document.getElementById('wfl-step-badge');
+      const titles = [
+        'BƯỚC 1: IMPORT & VALIDATION',
+        'BƯỚC 2: CLEANING AI EDIT',
+        'BƯỚC 3: HUMAN CHECK 1',
+        'BƯỚC 4: AI PROCESSING DATA',
+        'BƯỚC 5: OUTPUT PROPOSAL',
+        'BƯỚC 6: HUMAN CHECK 2 & EXPORT'
+      ];
+      if (badge) badge.innerText = titles[step - 1];
+      showToast(`Đã chuyển sang: ${titles[step - 1]}`, 'info');
+    }
+
+    // DETAIL TABS
+    function switchDetailTab(tab) {
+      ['items', 'draft', 'ticket', 'logs'].forEach(t => {
+        document.getElementById(`dpanel-${t}`).classList.add('hidden');
+        const btn = document.getElementById(`dtab-${t}`);
+        btn.classList.remove('border-[#2e1e17]', 'text-[#2e1e17]', 'font-bold');
+        btn.classList.add('border-transparent', 'text-[#7d7a74]');
+      });
+      document.getElementById(`dpanel-${tab}`).classList.remove('hidden');
+      const activeBtn = document.getElementById(`dtab-${tab}`);
+      activeBtn.classList.add('border-[#2e1e17]', 'text-[#2e1e17]', 'font-bold');
+      activeBtn.classList.remove('border-transparent', 'text-[#7d7a74]');
+    }
+
+    // VALIDATION
+    function validateData(csvText) {
+      const lines = csvText.split(/\r?\n/).filter(l => l.trim().length > 0);
+      const redBanner = document.getElementById('big-red-error-banner');
+      const greenNotice = document.getElementById('valid-file-notice');
+      const bulletList = document.getElementById('error-bullet-points');
+
+      if (lines.length < 2) {
+        isCurrentFileValid = false;
+        redBanner.classList.remove('hidden');
+        greenNotice.classList.add('hidden');
+        bulletList.innerHTML = '<li>✕ Tệp tin trống hoặc không có dòng dữ liệu nào!</li>';
+        return false;
+      }
+
+      const headers = lines[0].split(',').map(h => h.replace(/^["']|["']$/g, '').trim().toLowerCase());
+      const requiredKeys = ['mã yêu cầu', 'tên khách hàng', 'nội dung yêu cầu'];
+      const missing = requiredKeys.filter(k => !headers.some(h => h.includes(k)));
+
+      if (missing.length > 0) {
+        isCurrentFileValid = false;
+        redBanner.classList.remove('hidden');
+        greenNotice.classList.add('hidden');
+        bulletList.innerHTML = missing.map(m => `<li>✕ Thiếu khóa chính bắt buộc: <b>${m.toUpperCase()}</b></li>`).join('') +
+          `<li class="pt-1 text-[#7d7a74]">Các cột tìm thấy: [${headers.join(', ')}]</li>`;
+        return false;
+      }
+
+      isCurrentFileValid = true;
+      redBanner.classList.add('hidden');
+      greenNotice.classList.remove('hidden');
+      document.getElementById('valid-file-desc').innerText = `Đã kiểm duyệt thành công ${lines.length - 1} dòng dữ liệu hợp lệ.`;
+      return true;
+    }
+
+    function loadValidDataset() {
+      currentRawData = VALID_CSV;
+      document.getElementById('direct-raw-textarea').value = VALID_CSV;
+      validateData(VALID_CSV);
+      runPipelineProcessing(VALID_CSV);
+      showToast('✓ Đã nạp thành công 7 ca kiểm thử chuẩn Đề 01!', 'success');
+    }
+
+    function loadInvalidDataset() {
+      currentRawData = INVALID_CSV;
+      document.getElementById('direct-raw-textarea').value = INVALID_CSV;
+      validateData(INVALID_CSV);
+      setWorkflowStep(1);
+      showToast('⚠️ Đã nạp file lỗi để kiểm tra chữ ERROR đỏ to đùng!', 'error');
+    }
+
+    function handleDirectFileUpload(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = evt => {
+        currentRawData = evt.target.result;
+        document.getElementById('direct-raw-textarea').value = currentRawData;
+        if (validateData(currentRawData)) {
+          runPipelineProcessing(currentRawData);
+          showToast(`✓ Đã nạp file "${file.name}" thành công!`, 'success');
+        } else {
+          showToast('File tải lên không đúng định dạng khóa chính!', 'error');
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    function handleDirectGoogleSheet() {
+      const url = document.getElementById('direct-gsheet-url').value.trim();
+      if (!url) {
+        showToast('Vui lòng nhập link Google Sheet!', 'error');
+        return;
+      }
+      let fetchUrl = url;
+      if (url.includes('/edit')) fetchUrl = url.split('/edit')[0] + '/export?format=csv';
+
+      showToast('Đang kết nối Google Sheets...', 'info');
+      fetch(fetchUrl)
+        .then(r => r.text())
+        .then(csv => {
+          currentRawData = csv;
+          document.getElementById('direct-raw-textarea').value = csv;
+          if (validateData(csv)) {
+            runPipelineProcessing(csv);
+            showToast('✓ Nạp thành công dữ liệu từ Google Sheets!', 'success');
+          }
+        })
+        .catch(() => {
+          showToast('Google Sheet chưa mở chia sẻ công khai. Đã nạp mẫu chuẩn thay thế!', 'info');
+          loadValidDataset();
+        });
+    }
+
+    function processDataFromTextarea() {
+      const text = document.getElementById('direct-raw-textarea').value.trim();
+      if (!text) {
+        showToast('Văn bản đầu vào trống!', 'error');
+        return;
+      }
+      currentRawData = text;
+      if (validateData(text)) {
+        runPipelineProcessing(text);
+        showToast('✓ Đã cập nhật và phân tích lại dữ liệu!', 'success');
+      }
+    }
+
+    function parseCSV(text) {
+      const lines = text.split(/\r?\n/).filter(l => l.trim().length > 0);
+      if (lines.length === 0) return [];
+      function parseLine(line) {
+        const res = [];
+        let cur = '';
+        let inQuotes = false;
+        for (let i = 0; i < line.length; i++) {
+          const c = line[i];
+          if (c === '"') inQuotes = !inQuotes;
+          else if (c === ',' && !inQuotes) { res.push(cur.trim()); cur = ''; }
+          else cur += c;
+        }
+        res.push(cur.trim());
+        return res;
+      }
+      const headers = parseLine(lines[0]);
+      const records = [];
+      for (let i = 1; i < lines.length; i++) {
+        const values = parseLine(lines[i]);
+        if (values.length > 1) {
+          const row = {};
+          headers.forEach((h, idx) => row[h.trim()] = values[idx] || '');
+          records.push(row);
+        }
+      }
+      return records;
+    }
+
+    function runPipelineProcessing(csvText) {
+      const rawRecords = parseCSV(csvText);
+      const engine = new B2BAgentEngine(CATALOG_DATA);
+      const output = engine.processBatch(rawRecords);
+      currentDataset = output.opportunities;
+
+      // Update B2 Preview
+      const b2tbody = document.getElementById('b2-cleaned-tbody');
+      if (b2tbody) {
+        b2tbody.innerHTML = currentDataset.map(o => `
+          <tr class="hover:bg-[#fcfbfa]">
+            <td class="p-3">
+              <div class="font-mono font-bold text-[#765335]">${o.id}</div>
+              <div class="font-medium text-[#1e1d1b]">${o.customer}</div>
+            </td>
+            <td class="p-3 text-[#5c5953]">${o.extractedItems.map(i => `${i.quantity}x ${i.sku}`).join(', ') || 'Chưa nhận diện'}</td>
+            <td class="p-3 text-center">${o.deadlineDays ? o.deadlineDays + ' ngày' : 'Chưa rõ'}</td>
+            <td class="p-3 text-right font-mono font-bold text-[#1e1d1b]">${o.budget ? o.budget.toLocaleString('vi-VN') + ' ₫' : 'Chưa có'}</td>
+            <td class="p-3 text-center">
+              <span class="px-2 py-0.5 rounded text-[10px] font-bold ${o.isValid ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800'}">
+                ${o.isValid ? 'Đủ điều kiện' : 'Thiếu dữ liệu'}
+              </span>
+            </td>
+          </tr>
+        `).join('');
+      }
+
+      // Update B4/B5 Metrics
+      document.getElementById('wfl-b5-val').innerText = output.summary.totalQualifiedOrPendingValue.toLocaleString('vi-VN') + ' ₫';
+      document.getElementById('wfl-b5-count').innerText = `${output.totalOpportunities} Hồ sơ tiếp nhận`;
+
+      const b5tbody = document.getElementById('wfl-b5-tbody');
+      if (b5tbody) {
+        b5tbody.innerHTML = currentDataset.map(o => {
+          let badgeStyle = 'bg-emerald-50 text-emerald-800 border-emerald-200';
+          if (o.status === 'CẦN BỔ SUNG THÔNG TIN') badgeStyle = 'bg-amber-50 text-amber-800 border-amber-200';
+          else if (o.status === 'CHỜ DUYỆT') badgeStyle = 'bg-indigo-50 text-indigo-800 border-indigo-200';
+          else if (o.status === 'CHƯA ĐÁP ỨNG') badgeStyle = 'bg-rose-50 text-rose-800 border-rose-200';
+
+          return `
+            <tr class="hover:bg-[#fcfbfa]">
+              <td class="p-3">
+                <div class="font-mono font-bold text-[#765335]">${o.id}</div>
+                <div class="font-medium text-[#1e1d1b]">${o.customer}</div>
+              </td>
+              <td class="p-3 text-[#5c5953] truncate max-w-[200px]">${o.content}</td>
+              <td class="p-3 text-right font-mono font-bold text-[#1e1d1b]">${o.finalProposedAmount ? o.finalProposedAmount.toLocaleString('vi-VN') + ' ₫' : '-'}</td>
+              <td class="p-3 text-center">
+                <span class="px-2.5 py-1 rounded-full text-[10px] font-bold border ${badgeStyle}">${o.status}</span>
+              </td>
+              <td class="p-3 text-[11px] text-[#4a4742]">${o.nextSteps[0]}</td>
+            </tr>
+          `;
+        }).join('');
+      }
+
+      // Update Dashboard Hero & Badges
+      document.getElementById('dash-total-value').innerText = output.summary.totalQualifiedOrPendingValue.toLocaleString('vi-VN') + ' ₫';
+      document.getElementById('dash-total-count').innerText = `${output.totalOpportunities} Hồ sơ tiếp nhận`;
+      document.getElementById('badge-count-qualified').innerText = output.summary.qualifiedCount;
+      document.getElementById('badge-count-needinfo').innerText = output.summary.needInfoCount;
+      document.getElementById('badge-count-approval').innerText = output.summary.pendingApprovalCount;
+      document.getElementById('badge-count-notfeasible').innerText = output.summary.notFeasibleCount;
+
+      let qVal = 0, aVal = 0;
+      currentDataset.forEach(o => {
+        if (o.status === 'ĐỦ ĐIỀU KIỆN TIẾP TỤC') qVal += o.finalProposedAmount || 0;
+        if (o.status === 'CHỜ DUYỆT') aVal += o.finalProposedAmount || 0;
+      });
+      document.getElementById('badge-val-qualified').innerText = qVal.toLocaleString('vi-VN') + ' ₫';
+      document.getElementById('badge-val-approval').innerText = aVal.toLocaleString('vi-VN') + ' ₫';
+
+      renderDashboardTable();
+      if (currentDataset.length > 0) selectOpp(currentDataset[0].id);
+    }
+
+    function renderDashboardTable() {
+      const tbody = document.getElementById('dash-opportunities-tbody');
+      const filtered = currentDataset.filter(o => activeFilter === 'ALL' || o.status === activeFilter);
+      document.getElementById('dash-table-count').innerText = `Đang hiển thị ${filtered.length} / ${currentDataset.length} cơ hội`;
+
+      tbody.innerHTML = filtered.map(o => {
+        const isSel = selectedOpp && selectedOpp.id === o.id;
+        let badgeStyle = 'bg-emerald-50 text-emerald-800 border-emerald-200';
+        if (o.status === 'CẦN BỔ SUNG THÔNG TIN') badgeStyle = 'bg-amber-50 text-amber-800 border-amber-200';
+        else if (o.status === 'CHỜ DUYỆT') badgeStyle = 'bg-indigo-50 text-indigo-800 border-indigo-200';
+        else if (o.status === 'CHƯA ĐÁP ỨNG') badgeStyle = 'bg-rose-50 text-rose-800 border-rose-200';
+
+        return `
+          <tr onclick="selectOpp('${o.id}')" class="interactive-btn transition border-b border-[#f0eeeb] ${isSel ? 'bg-[#f5ebe1]/60 font-medium border-l-4 border-[#765335]' : 'hover:bg-[#fcfbfa]'}">
+            <td class="p-3">
+              <div class="font-mono font-bold text-[#765335]">${o.id}</div>
+              <div class="text-[#1e1d1b] font-medium truncate max-w-[160px]">${o.customer}</div>
+            </td>
+            <td class="p-3 text-[#5c5953] truncate max-w-[220px] text-xs">${o.content}</td>
+            <td class="p-3 text-right font-mono font-bold text-[#1e1d1b]">
+              ${o.finalProposedAmount ? o.finalProposedAmount.toLocaleString('vi-VN') + ' ₫' : '-'}
+            </td>
+            <td class="p-3 text-center">
+              <span class="inline-block px-2.5 py-1 rounded-full text-[10px] font-bold border ${badgeStyle} whitespace-nowrap">
+                ${o.status}
+              </span>
+            </td>
+            <td class="p-3 text-center">
+              <button onclick="event.stopPropagation(); selectOpp('${o.id}')" class="interactive-btn px-2.5 py-1 rounded-lg bg-[#2e1e17] text-white text-[11px]">
+                Chi tiết
+              </button>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function selectOpp(id) {
+      selectedOpp = currentDataset.find(o => o.id === id);
+      if (!selectedOpp) return;
+      renderDashboardTable();
+
+      const o = selectedOpp;
+      document.getElementById('dash-active-id').innerText = o.id;
+      document.getElementById('dash-customer-name').innerText = o.customer;
+      document.getElementById('dash-contact-info').innerText = `LH: ${o.contactName} | ${o.contactEmail || 'Chưa có email'}`;
+      document.getElementById('dash-status-tag').innerText = o.status;
+      document.getElementById('dash-amount').innerText = o.finalProposedAmount ? o.finalProposedAmount.toLocaleString('vi-VN') + ' ₫' : 'Chưa xác định';
+
+      const tbody = document.getElementById('detail-items-table');
+      if (o.itemsAnalysis && o.itemsAnalysis.length > 0) {
+        tbody.innerHTML = o.itemsAnalysis.map(it => `
+          <tr class="hover:bg-[#fcfbfa]">
+            <td class="p-2.5">
+              <div class="font-bold text-[#1e1d1b]">${it.name}</div>
+              <div class="font-mono text-[#765335] text-[10px]">${it.sku}</div>
+            </td>
+            <td class="p-2.5 text-center font-bold">${it.quantity}</td>
+            <td class="p-2.5 text-center ${it.isStockEnough ? 'text-emerald-700 font-semibold' : 'text-rose-700 font-bold'}">
+              ${it.stockAvailable} ${!it.isStockEnough ? `<span class="block text-[9px] text-rose-600">(Thiếu ${it.deficitQty})</span>` : ''}
+            </td>
+            <td class="p-2.5 text-right font-mono text-[#5c5953]">${it.listPrice.toLocaleString('vi-VN')} ₫</td>
+            <td class="p-2.5 text-right font-mono font-bold text-[#1e1d1b]">${it.lineTotal.toLocaleString('vi-VN')} ₫</td>
+          </tr>
+        `).join('');
+      } else {
+        tbody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-[#8c8983]">Không bóc tách được SKU cụ thể.</td></tr>`;
+      }
+
+      const ruleBox = document.getElementById('detail-rule-reasons');
+      const reasons = [];
+      if (o.missingFields && o.missingFields.length > 0) reasons.push(`⚠️ Thiếu dữ liệu bắt buộc: <b>${o.missingFields.join(', ')}</b>`);
+      if (o.approvalReasons && o.approvalReasons.length > 0) o.approvalReasons.forEach(r => reasons.push(`🔒 Vượt thẩm quyền: <b>${r}</b>`));
+      if (o.rejectionReasons && o.rejectionReasons.length > 0) reasons.push(`⛔ Rào cản: <b>${o.rejectionReasons.join('; ')}</b>`);
+      if (reasons.length === 0) reasons.push('✅ Đạt 100% điều kiện tồn kho và hạn mức chiết khấu.');
+      ruleBox.innerHTML = reasons.map(r => `<li>• ${r}</li>`).join('');
+
+      document.getElementById('draft-to-email').innerText = `Gửi tới: ${o.draftEmail.to}`;
+      document.getElementById('draft-subject').innerText = o.draftEmail.subject;
+      document.getElementById('draft-body').innerText = o.draftEmail.body;
+
+      const tContainer = document.getElementById('ticket-container');
+      const noTicket = document.getElementById('no-ticket-msg');
+      if (o.approvalTicket) {
+        noTicket.classList.add('hidden');
+        tContainer.classList.remove('hidden');
+        document.getElementById('ticket-amount').innerText = o.approvalTicket.finalProposedAmount.toLocaleString('vi-VN') + ' ₫';
+        document.getElementById('ticket-discount').innerText = o.approvalTicket.proposedDiscountPct + '%';
+        document.getElementById('ticket-reasons').innerText = o.approvalTicket.reasons.join('\n');
+      } else {
+        noTicket.classList.remove('hidden');
+        tContainer.classList.add('hidden');
+      }
+
+      document.getElementById('detail-logs').innerHTML = o.logs.map(l => `<div>${l}</div>`).join('');
+    }
+
+    function filterByStatusBadge(status) {
+      if (activeFilter === status) activeFilter = 'ALL';
+      else activeFilter = status;
+      renderDashboardTable();
+      showToast(`Đã lọc: ${activeFilter}`, 'info');
+    }
+
+    function triggerRunAgentAnimation() {
+      showToast('🚀 Đang chạy chuỗi Agent: Extract -> Inventory -> Policy...', 'info');
+      setTimeout(() => {
+        runPipelineProcessing(currentRawData);
+        showToast('✓ AI Agent đã tính toán & đối chiếu thành công!', 'success');
+      }, 300);
+    }
+
+    function handleB3FeedbackAction() {
+      const fb = document.getElementById('b3-feedback-input').value.trim();
+      if (!fb) {
+        showToast('Vui lòng nhập nội dung phản hồi của Người 1!', 'error');
+        return;
+      }
+      showToast(`[FEEDBACK AI PROPOSE] Đã nhận: "${fb}". Đang lọc lại dữ liệu...`, 'info');
+      setTimeout(() => {
+        setWorkflowStep(2);
+      }, 500);
+    }
+
+    function handleB6FeedbackAction() {
+      const fb = document.getElementById('b6-feedback-input').value.trim();
+      if (!fb) {
+        showToast('Vui lòng nhập nội dung chỉ thị của Người duyệt cuối!', 'error');
+        return;
+      }
+      showToast(`[FEEDBACK TRƯỞNG PHÒNG] Đã nhận: "${fb}". AI đang chạy lại mô hình...`, 'info');
+      setTimeout(() => {
+        setWorkflowStep(4);
+      }, 500);
+    }
+
+    function approveTicketAction() {
+      if (!selectedOpp) return;
+      selectedOpp.status = 'ĐỦ ĐIỀU KIỆN TIẾP TỤC';
+      selectedOpp.approvalTicket = null;
+      renderDashboardTable();
+      selectOpp(selectedOpp.id);
+      showToast(`✓ Trưởng phòng đã PHÊ DUYỆT cơ hội ${selectedOpp.id}!`, 'success');
+    }
+
+    function rejectTicketAction() {
+      if (!selectedOpp) return;
+      showToast(`Đã trả lại hồ sơ ${selectedOpp.id} để đàm phán lại chiết khấu!`, 'info');
+    }
+
+    function copyDraftEmailText() {
+      if (!selectedOpp) return;
+      const text = `${selectedOpp.draftEmail.subject}\n\n${selectedOpp.draftEmail.body}`;
+      navigator.clipboard.writeText(text).then(() => showToast('✓ Đã sao chép nội dung email vào Clipboard!', 'success'));
+    }
+
+    function doExportExcel() {
+      let csv = 'Mã yêu cầu,Khách hàng,Trạng thái,Giá đề xuất (VNĐ),Chiết khấu (%),Căn cứ\n';
+      currentDataset.forEach(o => {
+        csv += `"${o.id}","${o.customer}","${o.status}","${o.finalProposedAmount || 0}","${o.appliedDiscountPct}%","${(o.approvalReasons || []).join(';')}"\n`;
+      });
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `B2B_Report_${Date.now()}.csv`;
+      a.click();
+      showToast('✓ Đã xuất tệp tin Excel (.csv) thành công!', 'success');
+    }
+
+    function doExportHTML() {
+      const content = `<!DOCTYPE html><html><head><meta charset="utf-8"><title>Báo cáo B2B Minh An</title></head><body style="font-family:sans-serif;padding:30px;"><h2>BÁO CÁO CƠ HỘI BÁN HÀNG B2B MINH AN</h2><p>Ngày xuất: ${new Date().toLocaleString('vi-VN')}</p><table border="1" cellpadding="8" style="border-collapse:collapse;width:100%;"><tr><th>Mã</th><th>Khách hàng</th><th>Trạng thái</th><th>Giá đề xuất</th><th>Hành động</th></tr>${currentDataset.map(o => `<tr><td>${o.id}</td><td>${o.customer}</td><td>${o.status}</td><td>${o.finalProposedAmount ? o.finalProposedAmount.toLocaleString('vi-VN') + ' đ' : '-'}</td><td>${o.nextSteps[0]}</td></tr>`).join('')}</table></body></html>`;
+      const blob = new Blob([content], { type: 'text/html;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `B2B_Report_${Date.now()}.html`;
+      a.click();
+      showToast('✓ Đã xuất báo cáo HTML thành công!', 'success');
+    }
+
+    function renderCatalog() {
+      const tbody = document.getElementById('catalog-table-body');
+      tbody.innerHTML = CATALOG_DATA.products.map(p => `
+        <tr class="hover:bg-[#fcfbfa]">
+          <td class="p-3 font-mono font-bold text-[#765335]">${p.sku}</td>
+          <td class="p-3 text-[#1e1d1b] font-medium">${p.name}</td>
+          <td class="p-3 text-center font-bold ${p.stock_qty < 10 ? 'text-amber-700' : 'text-emerald-700'}">${p.stock_qty}</td>
+          <td class="p-3 text-center text-[#5c5953]">${p.lead_time_days} ngày</td>
+          <td class="p-3 text-right font-mono font-semibold text-[#1e1d1b]">${p.list_price.toLocaleString('vi-VN')} ₫</td>
+        </tr>
+      `).join('');
+    }
+
+    // MULTI-SKILL DETERMINISTIC AGENT ENGINE
+    class B2BAgentEngine {
+      constructor(catalogData) {
+        this.catalog = catalogData.products || [];
+        this.policies = catalogData.policies || {};
+      }
+
+      extractAndValidate(rawRecord) {
+        const logs = [];
+        const id = rawRecord.id || rawRecord['Mã yêu cầu'] || 'OPP-UNKNOWN';
+        logs.push(`[Skill 1: ExtractAndValidate] Bóc tách yêu cầu: ${id}`);
+
+        const customer = rawRecord.customer || rawRecord['Tên khách hàng'] || 'Chưa rõ';
+        const contactName = rawRecord.contact || rawRecord['Người liên hệ'] || 'Quý khách';
+        const contactEmail = rawRecord.email || rawRecord['Email liên hệ'] || '';
+        const content = rawRecord.content || rawRecord['Nội dung yêu cầu'] || '';
+        const requestedDeadlineStr = rawRecord.deadline || rawRecord['Thời hạn mong muốn'] || '';
+        const budgetRaw = rawRecord.budget || rawRecord['Ngân sách dự kiến (VNĐ)'] || rawRecord['Ngân sách'] || null;
+        const requestedDiscountRaw = rawRecord.discount || rawRecord['Chiết khấu mong muốn (%)'] || '0';
+
+        let requestedDiscountPct = 0;
+        if (requestedDiscountRaw) requestedDiscountPct = parseFloat(String(requestedDiscountRaw).replace('%', '').trim()) || 0;
+
+        let budget = null;
+        if (budgetRaw !== null && budgetRaw !== undefined && String(budgetRaw).trim() !== '') {
+          budget = parseFloat(String(budgetRaw).replace(/[^0-9.]/g, ''));
+        }
+
+        let deadlineDays = null;
+        const dayMatch = requestedDeadlineStr.match(/(\d+)\s*(ngày|day|d)/i);
+        if (dayMatch) deadlineDays = parseInt(dayMatch[1], 10);
+
+        const extractedItems = [];
+        for (const prod of this.catalog) {
+          const regexTerms = [];
+          if (prod.sku.includes('DELL')) regexTerms.push('Dell', 'PowerEdge', 'R750');
+          else if (prod.sku.includes('CISCO')) regexTerms.push('Cisco', 'Catalyst', '9200');
+          else if (prod.sku.includes('ARUBA')) regexTerms.push('Aruba', 'AP-505', 'AP505', 'Wifi');
+          else if (prod.sku.includes('FORTI')) regexTerms.push('Fortinet', 'FortiGate', '60F', 'Tường lửa');
+          else if (prod.sku.includes('APC')) regexTerms.push('APC', 'Smart-UPS', '3000VA', 'Bộ lưu điện');
+          else if (prod.sku.includes('INSTALL')) regexTerms.push('lắp đặt', 'cấu hình', 'triển khai tiêu chuẩn');
+
+          const isMentioned = regexTerms.some(term => content.toLowerCase().includes(term.toLowerCase()));
+          if (isMentioned) {
+            const patterns = [
+              new RegExp(`(\\d+)\\s*(cái|chiếc|bộ|server|máy chủ|switch|tường lửa|thiết bị|bộ lưu điện|ups)?\\s*(?:[\\w\\s]{0,25})?(${regexTerms.join('|')})`, 'i'),
+              new RegExp(`(${regexTerms.join('|')})(?:[\\w\\s]{0,25})?(?:số lượng|qty|sl|x)?\\s*:?\\s*(\\d+)`, 'i')
+            ];
+
+            let qty = 1;
+            let matchedQty = false;
+            for (const p of patterns) {
+              const m = content.match(p);
+              if (m) {
+                const num = parseInt(m[1] && !isNaN(m[1]) ? m[1] : m[2], 10);
+                if (!isNaN(num) && num > 0) { qty = num; matchedQty = true; break; }
+              }
+            }
+
+            extractedItems.push({
+              sku: prod.sku, name: prod.name, category: prod.category,
+              quantity: qty, listPrice: prod.list_price,
+              stockAvailable: prod.stock_qty, leadTimeDays: prod.lead_time_days,
+              explicitQtyMentioned: matchedQty
+            });
+            logs.push(`-> Bóc tách SKU ${prod.sku}: số lượng ${qty}`);
+          }
+        }
+
+        const missingFields = [];
+        if (!customer || customer === 'Chưa rõ') missingFields.push('Tên khách hàng');
+        if (extractedItems.length === 0) missingFields.push('Hạng mục sản phẩm cụ thể');
+        if (extractedItems.some(i => !i.explicitQtyMentioned && !content.toLowerCase().includes('số lượng'))) {
+          if (content.toLowerCase().includes('quan tâm') || content.toLowerCase().includes('tư vấn')) {
+            missingFields.push('Số lượng từng loại thiết bị');
+          }
+        }
+        if (budget === null) missingFields.push('Ngân sách dự kiến');
+        if (deadlineDays === null) missingFields.push('Thời hạn triển khai mong muốn');
+
+        logs.push(`-> Kết quả Skill 1: ${extractedItems.length} SKU, thiếu ${missingFields.length} trường.`);
+
+        return {
+          id, customer, contactName, contactEmail, content,
+          extractedItems, deadlineDays, budget, requestedDiscountPct,
+          missingFields, isValid: missingFields.length === 0, logs
+        };
+      }
+
+      matchInventoryAndPrice(res1) {
+        const logs = [...res1.logs];
+        logs.push(`[Skill 2: CheckInventoryAndPricing] Tra cứu tồn kho & đơn giá chuẩn`);
+
+        const itemsAnalysis = [];
+        let totalListPrice = 0;
+        let maxItemLeadTime = 0;
+        let isInventoryShortage = false;
+
+        for (const item of res1.extractedItems) {
+          const lineTotal = item.quantity * item.listPrice;
+          totalListPrice += lineTotal;
+
+          const isStockEnough = item.stockAvailable >= item.quantity;
+          if (!isStockEnough) isInventoryShortage = true;
+
+          const effectiveLeadTime = isStockEnough ? item.leadTimeDays : (item.leadTimeDays + 10);
+          if (effectiveLeadTime > maxItemLeadTime) maxItemLeadTime = effectiveLeadTime;
+
+          itemsAnalysis.push({
+            ...item, lineTotal, isStockEnough,
+            deficitQty: Math.max(0, item.quantity - item.stockAvailable),
+            effectiveLeadTime
+          });
+
+          logs.push(`-> ${item.sku}: Cần ${item.quantity}, Tồn ${item.stockAvailable} => ${isStockEnough ? 'Đủ kho' : 'THIẾU KHO'}`);
+        }
+
+        let isLeadTimeFeasible = true;
+        let leadTimeGap = 0;
+        if (res1.deadlineDays !== null) {
+          if (maxItemLeadTime > res1.deadlineDays) {
+            isLeadTimeFeasible = false;
+            leadTimeGap = maxItemLeadTime - res1.deadlineDays;
+            logs.push(`-> [CẢNH BÁO TIẾN ĐỘ] Cần tối thiểu ${maxItemLeadTime} ngày, khách yêu cầu ${res1.deadlineDays} ngày (chênh -${leadTimeGap} ngày)`);
+          }
+        }
+
+        let eligibleStandardDiscountPct = 0;
+        let maxRepAllowedDiscountPct = 3;
+        for (const rule of this.policies.discount_rules) {
+          if (totalListPrice >= rule.min_order_value && totalListPrice <= rule.max_order_value) {
+            eligibleStandardDiscountPct = rule.standard_discount_pct;
+            maxRepAllowedDiscountPct = rule.max_rep_discount_pct;
+            break;
+          }
+        }
+
+        let appliedDiscountPct = eligibleStandardDiscountPct;
+        let isSpecialDiscountRequested = false;
+
+        if (res1.requestedDiscountPct > 0) {
+          if (res1.requestedDiscountPct > maxRepAllowedDiscountPct) {
+            isSpecialDiscountRequested = true;
+            appliedDiscountPct = res1.requestedDiscountPct;
+          } else {
+            appliedDiscountPct = Math.max(eligibleStandardDiscountPct, res1.requestedDiscountPct);
+          }
+        }
+
+        const discountAmount = totalListPrice * (appliedDiscountPct / 100);
+        const finalProposedAmount = totalListPrice - discountAmount;
+
+        let isBudgetFeasible = true;
+        let budgetGap = 0;
+        if (res1.budget !== null) {
+          if (finalProposedAmount > res1.budget) {
+            isBudgetFeasible = false;
+            budgetGap = finalProposedAmount - res1.budget;
+            logs.push(`-> [CẢNH BÁO BUDGET] Giá đề xuất ${finalProposedAmount.toLocaleString('vi-VN')} đ vượt budget ${res1.budget.toLocaleString('vi-VN')} đ`);
+          }
+        }
+
+        return {
+          ...res1, itemsAnalysis, totalListPrice, maxItemLeadTime,
+          isInventoryShortage, isLeadTimeFeasible, leadTimeGap,
+          eligibleStandardDiscountPct, maxRepAllowedDiscountPct,
+          appliedDiscountPct, isSpecialDiscountRequested, discountAmount,
+          finalProposedAmount, isBudgetFeasible, budgetGap, logs
+        };
+      }
+
+      evaluateApprovalAndClassify(res2) {
+        const logs = [...res2.logs];
+        logs.push(`[Skill 3: PolicyGateway] Thẩm định quy tắc thẩm quyền và xếp hạng`);
+
+        let status = 'ĐỦ ĐIỀU KIỆN TIẾP TỤC';
+        const approvalReasons = [];
+        const rejectionReasons = [];
+
+        if (res2.missingFields.length > 0) {
+          status = 'CẦN BỔ SUNG THÔNG TIN';
+          logs.push(`-> Xếp loại: [CẦN BỔ SUNG THÔNG TIN]`);
+        } else {
+          if (!res2.isLeadTimeFeasible && res2.leadTimeGap >= 7) {
+            status = 'CHƯA ĐÁP ỨNG';
+            rejectionReasons.push(`Thời hạn khách hàng yêu cầu (${res2.deadlineDays} ngày) quá gấp so với năng lực cung ứng (${res2.maxItemLeadTime} ngày) do thiếu kho.`);
+          } else if (!res2.isBudgetFeasible && (res2.budgetGap / res2.budget) > 0.35) {
+            status = 'CHƯA ĐÁP ỨNG';
+            rejectionReasons.push(`Ngân sách dự kiến (${res2.budget.toLocaleString('vi-VN')} đ) thấp hơn 35% so với mức giá tối thiểu (${res2.finalProposedAmount.toLocaleString('vi-VN')} đ).`);
+          }
+
+          if (status !== 'CHƯA ĐÁP ỨNG') {
+            if (res2.isSpecialDiscountRequested) {
+              approvalReasons.push(`Chiết khấu đề xuất ${res2.appliedDiscountPct}% vượt quyền NVKD (hạn mức tối đa là ${res2.maxRepAllowedDiscountPct}%).`);
+            }
+            if (res2.finalProposedAmount > this.policies.approval_thresholds.max_rep_order_value) {
+              approvalReasons.push(`Tổng giá trị cơ hội (${res2.finalProposedAmount.toLocaleString('vi-VN')} đ) vượt thẩm quyền NVKD (> 300,000,000 đ).`);
+            }
+            if (res2.isInventoryShortage) {
+              approvalReasons.push(`Tồn kho không đủ, cần bộ phận Vận hành phê duyệt đặt hàng bổ sung và cam kết lại thời hạn giao.`);
+            }
+            if (!res2.isLeadTimeFeasible && res2.leadTimeGap < 7) {
+              approvalReasons.push(`Thời hạn giao hàng gấp hơn ${res2.leadTimeGap} ngày, cần Trưởng phòng duyệt chi phí vận chuyển hỏa tốc.`);
+            }
+
+            if (approvalReasons.length > 0) {
+              status = 'CHỜ DUYỆT';
+              logs.push(`-> Xếp loại: [CHỜ DUYỆT]`);
+            } else {
+              status = 'ĐỦ ĐIỀU KIỆN TIẾP TỤC';
+              logs.push(`-> Xếp loại: [ĐỦ ĐIỀU KIỆN TIẾP TỤC]`);
+            }
+          }
+        }
+
+        const nextSteps = this.generateNextSteps(status, res2, approvalReasons, rejectionReasons);
+        const draftEmail = this.generateDraftEmail(status, res2, approvalReasons, rejectionReasons);
+        const approvalTicket = approvalReasons.length > 0 ? this.generateApprovalTicket(res2, approvalReasons) : null;
+
+        return {
+          ...res2, status, approvalReasons, rejectionReasons,
+          nextSteps, draftEmail, approvalTicket, logs
+        };
+      }
+
+      generateNextSteps(status, res, approvalReasons, rejectionReasons) {
+        switch (status) {
+          case 'CẦN BỔ SUNG THÔNG TIN':
+            return [
+              `NVKD gửi email hỏi bổ sung thông tin: ${res.missingFields.join(', ')}.`,
+              `Gắn nhãn cơ hội tạm dừng (On Hold) trong 48h.`,
+              `Sau khi nhận phản hồi, nạp lại dữ liệu để Agent định giá.`
+            ];
+          case 'CHỜ DUYỆT':
+            return [
+              `Hệ thống tự động chuyển Phiếu chuyển duyệt tới Trưởng phòng Kinh doanh.`,
+              `Căn cứ thẩm định: ${approvalReasons[0]}`,
+              `NVKD theo dõi phê duyệt trước khi phát hành báo giá chính thức.`
+            ];
+          case 'CHƯA ĐÁP ỨNG':
+            return [
+              `NVKD liên hệ giải thích vướng mắc: ${rejectionReasons.join('; ')}.`,
+              `Đề xuất phương án thay thế (nới thời hạn hoặc tinh giản thiết bị).`
+            ];
+          case 'ĐỦ ĐIỀU KIỆN TIẾP TỤC':
+          default:
+            return [
+              `NVKD rà soát bản nháp Báo giá dự thảo (${res.finalProposedAmount.toLocaleString('vi-VN')} VNĐ).`,
+              `Gửi email báo giá chính thức cho khách hàng.`,
+              `Cập nhật trạng thái 'Đã gửi báo giá' lên hệ thống CRM.`
+            ];
+        }
+      }
+
+      generateDraftEmail(status, res, approvalReasons, rejectionReasons) {
+        const contact = res.contactName || 'Quý khách';
+        const customer = res.customer;
+
+        if (status === 'CẦN BỔ SUNG THÔNG TIN') {
+          return {
+            subject: `[Minh An B2B] Tiếp nhận & Đề nghị bổ sung thông tin yêu cầu - ${customer}`,
+            to: res.contactEmail || 'khachhang@doanhnghiep.vn',
+            body: `Kính gửi Anh/Chị ${contact},\n\nMinh An chân thành cảm ơn Quý khách hàng đã quan tâm đến giải pháp thiết bị công nghệ của chúng tôi.\n\nĐể đội ngũ kỹ thuật và chuyên viên kinh doanh xây dựng phương án tối ưu kèm bảng giá chiết khấu chính xác nhất, Minh An xin phép nhờ Anh/Chị hỗ trợ làm rõ và bổ sung một số thông tin sau:\n${res.missingFields.map((f, i) => `${i + 1}. ${f}`).join('\n')}\n\nNgay khi nhận được thông tin bổ sung, Minh An sẽ hoàn tất Hồ sơ và gửi bảng chào giá trong vòng 4 giờ làm việc.\n\nTrân trọng cảm ơn sự phối hợp của Anh/Chị,\nBộ phận Kinh doanh B2B - Công ty Minh An`
+          };
+        }
+
+        if (status === 'CHỜ DUYỆT') {
+          return {
+            subject: `[Minh An B2B] Tiếp nhận yêu cầu & Đang hoàn thiện phương án ưu đãi - ${customer}`,
+            to: res.contactEmail || 'khachhang@doanhnghiep.vn',
+            body: `Kính gửi Anh/Chị ${contact},\n\nMinh An đã tiếp nhận đầy đủ yêu cầu cấu hình thiết bị của ${customer}.\n\nHiện tại, do quy mô dự án và chính sách ưu đãi chiết khấu đặc biệt theo đề nghị của Quý khách, hồ sơ đang được chuyển Trưởng phòng Kinh doanh phê duyệt hạn mức tối đa.\n\nChúng tôi sẽ phát hành Báo giá chính thức và phương án bàn giao chậm nhất vào sáng ngày làm việc tiếp theo.\n\nTrân trọng,\nĐội ngũ Kinh doanh Minh An`
+          };
+        }
+
+        if (status === 'CHƯA ĐÁP ỨNG') {
+          return {
+            subject: `[Minh An B2B] Phản hồi về tiến độ & Khả năng đáp ứng yêu cầu - ${customer}`,
+            to: res.contactEmail || 'khachhang@doanhnghiep.vn',
+            body: `Kính gửi Anh/Chị ${contact},\n\nMinh An đã rà soát tồn kho và năng lực triển khai kỹ thuật cho yêu cầu của ${customer}.\n\nTuy nhiên, sau khi đối chiếu thực tế: ${rejectionReasons.join(' ')}\n\nMinh An rất mong có thể trao đổi trực tiếp với Anh/Chị để cùng tìm giải pháp tháo gỡ (ví dụ: giao từng phần hoặc tư vấn model tương đương có sẵn).\n\nTrân trọng,\nĐội ngũ Kỹ thuật & Kinh doanh Minh An`
+          };
+        }
+
+        const itemLines = res.itemsAnalysis.map((it, idx) => 
+          `${idx + 1}. ${it.name} | SL: ${it.quantity} | Đơn giá: ${it.listPrice.toLocaleString('vi-VN')} ₫ | Thành tiền: ${it.lineTotal.toLocaleString('vi-VN')} ₫`
+        ).join('\n');
+
+        return {
+          subject: `[Báo giá chính thức] Giải pháp thiết bị công nghệ B2B - Minh An gửi ${customer}`,
+          to: res.contactEmail || 'khachhang@doanhnghiep.vn',
+          body: `Kính gửi Anh/Chị ${contact} - ${customer},\n\nCông ty Minh An xin trân trọng gửi tới Quý khách Báo giá sơ bộ cho các hạng mục thiết bị đã yêu cầu:\n\nDANH MỤC CHI TIẾT:\n${itemLines}\n\n- Tổng giá niêm yết: ${res.totalListPrice.toLocaleString('vi-VN')} VNĐ\n- Chiết khấu thương mại (${res.appliedDiscountPct}%): -${res.discountAmount.toLocaleString('vi-VN')} VNĐ\n- TỔNG GIÁ TRỊ ĐỀ XUẤT (Chưa VAT): ${res.finalProposedAmount.toLocaleString('vi-VN')} VNĐ\n- Thời gian giao hàng cam kết: trong vòng ${res.maxItemLeadTime} ngày làm việc kể từ khi ký kết hợp đồng.\n\nBáo giá có hiệu lực trong vòng 15 ngày.\n\nTrân trọng,\nNhân viên Kinh doanh phụ trách - Công ty Minh An`
+        };
+      }
+
+      generateApprovalTicket(res, approvalReasons) {
+        return {
+          ticketId: `APP-${res.id}-${Date.now().toString().slice(-4)}`,
+          opportunityId: res.id,
+          customer: res.customer,
+          totalListPrice: res.totalListPrice,
+          proposedDiscountPct: res.appliedDiscountPct,
+          finalProposedAmount: res.finalProposedAmount,
+          reasons: approvalReasons,
+          status: 'PENDING_APPROVAL'
+        };
+      }
+
+      processBatch(records) {
+        const results = records.map(rec => {
+          const s1 = this.extractAndValidate(rec);
+          const s2 = this.matchInventoryAndPrice(s1);
+          const s3 = this.evaluateApprovalAndClassify(s2);
+          return s3;
+        });
+
+        let q = 0, n = 0, a = 0, nf = 0, val = 0;
+        results.forEach(r => {
+          if (r.status === 'ĐỦ ĐIỀU KIỆN TIẾP TỤC') { q++; val += r.finalProposedAmount || 0; }
+          else if (r.status === 'CẦN BỔ SUNG THÔNG TIN') n++;
+          else if (r.status === 'CHỜ DUYỆT') { a++; val += r.finalProposedAmount || 0; }
+          else if (r.status === 'CHƯA ĐÁP ỨNG') nf++;
+        });
+
+        return {
+          totalOpportunities: results.length,
+          summary: {
+            qualifiedCount: q, needInfoCount: n, pendingApprovalCount: a, notFeasibleCount: nf,
+            totalQualifiedOrPendingValue: val
+          },
+          opportunities: results
+        };
+      }
+    }
+  </script>
+</body>
+</html>
